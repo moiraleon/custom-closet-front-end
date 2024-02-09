@@ -1,0 +1,8 @@
+{
+  "name": "alynas_closet",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue-vite",
+  "id": "5ac243d2"
+}
