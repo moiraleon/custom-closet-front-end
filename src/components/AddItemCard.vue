@@ -1,12 +1,12 @@
 <template>
   <div id="container">
-  <ion-card>
+      <ion-card>
         <ion-card-header>
           <ion-card-title><strong>{{ name }}</strong></ion-card-title>
           <ion-card-subtitle>Add a new {{ addText }} to your closet library.</ion-card-subtitle>
           </ion-card-header>
-        <ion-button id="open-action-sheet-{{ idAppend }}">Upload</ion-button>
-        <ion-action-sheet trigger="open-action-sheet-{{ idAppend }}" header="Actions" :buttons="actionSheetButtons"></ion-action-sheet>
+          <ion-button :id="'open-action-sheet-' + idAppend">Upload</ion-button>
+        <ion-action-sheet :trigger="'open-action-sheet-' + idAppend" header="Actions" :buttons="actionSheetButtons"></ion-action-sheet>
       </ion-card>
       </div>
 </template>
@@ -20,16 +20,9 @@ import { defineComponent } from 'vue';
     setup() {
       const actionSheetButtons = [
         {
-          text: 'Delete',
-          role: 'destructive',
+          text: 'Upload',
           data: {
-            action: 'delete',
-          },
-        },
-        {
-          text: 'Share',
-          data: {
-            action: 'share',
+            action: 'upload',
           },
         },
         {
@@ -51,7 +44,11 @@ import { defineComponent } from 'vue';
       addText: {
         type: String,
         required: true,
-      }
+      },
+      idAppend: {
+        type: String,
+        required: true,
+    }
   },
   });
 </script>

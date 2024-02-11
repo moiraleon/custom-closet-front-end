@@ -2,7 +2,7 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Tab 2</ion-title>
+        <ion-title>Add New Items</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
@@ -12,8 +12,13 @@
         </ion-toolbar>
       </ion-header>
 
+      <AddItemCard name="Shirt" idAppend="shirt" addText="shirt"/>
+      <AddItemCard name="Sweater" idAppend="sweater" addText="sweater"/>
+      <AddItemCard name="Jacket" idAppend="jacket" addText="jacket"/>
       <AddItemCard name="Pants" idAppend="pants" addText="pair of pants"/>
+      <AddItemCard name="Skirt" idAppend="shirt" addText="skirt"/>
       <AddItemCard name="Dress" idAppend="dress" addText="dress"/>
+      <AddItemCard name="Shoes" idAppend="shoes" addText="pair of shoes"/>
     </ion-content>
   </ion-page>
 </template>
