@@ -12,13 +12,14 @@
         </ion-toolbar>
       </ion-header>
 
-      <AddItemCard name="Shirt" idAppend="shirt" addText="shirt"/>
-      <AddItemCard name="Sweater" idAppend="sweater" addText="sweater"/>
-      <AddItemCard name="Jacket" idAppend="jacket" addText="jacket"/>
-      <AddItemCard name="Pants" idAppend="pants" addText="pair of pants"/>
-      <AddItemCard name="Skirt" idAppend="shirt" addText="skirt"/>
-      <AddItemCard name="Dress" idAppend="dress" addText="dress"/>
-      <AddItemCard name="Shoes" idAppend="shoes" addText="pair of shoes"/>
+      <AddItemCard name="Shirt" tag="shirt" addText="shirt"/>
+      <AddItemCard name="Sweater" tag="sweater" addText="sweater"/>
+      <AddItemCard name="Jacket" tag="jacket" addText="jacket"/>
+      <AddItemCard name="Pants" tag="pants" addText="pair of pants"/>
+      <AddItemCard name="Shorts" tag="shorts" addText="pair of shorts"/>
+      <AddItemCard name="Skirt" tag="skirt" addText="skirt"/>
+      <AddItemCard name="Dress" tag="dress" addText="dress"/>
+      <AddItemCard name="Shoes" tag="shoes" addText="pair of shoes"/>
     </ion-content>
   </ion-page>
 </template>
