@@ -1,12 +1,18 @@
 <template>
   <ion-card>
-    <swiper-container>
-      <swiper-slide>Slide 1<img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" /></swiper-slide>
-      <swiper-slide>Slide 2</swiper-slide>
-      <swiper-slide>Slide 3</swiper-slide>
-    </swiper-container>
+      <swiper :loop="true">
+      <swiper-slide>Slide 1
+        <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
+      </swiper-slide>
+      <swiper-slide>Slide 2
+        <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
+      </swiper-slide>
+      <swiper-slide>Slide 3
+        <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
+      </swiper-slide>
+      </swiper>
     <ion-card-header>
-      <ion-card-title>Card Title</ion-card-title>
+      <ion-card-title>{{name}}</ion-card-title>
       <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
     </ion-card-header>
     <ion-card-content>
@@ -14,16 +20,46 @@
     </ion-card-content>
   </ion-card>
   </template>
+  <script lang="ts">
+  import { defineComponent } from 'vue';
+  //  import { Autoplay, Keyboard, Pagination, Scrollbar, Zoom } from 'swiper';
+  import { Swiper, SwiperSlide } from 'swiper/vue';
+  import {IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
   
-  <script setup lang="ts">
-      // import function to register Swiper custom elements
-    import { register } from 'swiper/element/bundle';
-    // register Swiper custom elements
-    register();
+  import 'swiper/css';
+  import '@ionic/vue/css/ionic-swiper.css';
 
-  defineProps({
-    name: String,
-  });
+    export default defineComponent({
+      components: { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, Swiper, SwiperSlide, IonContent, IonPage},
+      setup() {
+        // const actionSheetButtons = [
+        //   {
+        //     text: 'Upload',
+        //     data: {
+        //       action: 'upload',
+        //     },
+        //   },
+        //   {
+        //     text: 'Cancel',
+        //     role: 'cancel',
+        //     data: {
+        //       action: 'cancel',
+        //     },
+        //   },
+        // ];
+  
+        // return { actionSheetButtons };
+      //   return {
+      //   modules: [Autoplay, Keyboard, Pagination, Scrollbar, Zoom],
+      // };
+      },
+      props: {
+        name: {
+          type: String,
+          required: true,
+        }
+    },
+    });
   </script>
   
   <style scoped>

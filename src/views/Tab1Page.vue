@@ -11,9 +11,9 @@
           <ion-title size="large">Tab 1</ion-title>
         </ion-toolbar>
       </ion-header>
-      <ViewItemCardSlider name="Tab 1 page" />
-      <ViewItemCardSlider name="Tab 1 page" />
-      <ViewItemCardSlider name="Tab 1 page" />
+      <ViewItemCardSlider name="Tile 1" />
+      <ViewItemCardSlider name="Tile 2" />
+      <ViewItemCardSlider name="Tile 3" />
     </ion-content>
   </ion-page>
 </template>
