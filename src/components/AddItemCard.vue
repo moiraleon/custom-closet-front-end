@@ -15,12 +15,12 @@
 </template>
 
 <script lang="ts">
-import { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle } from '@ionic/vue';
+import { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle,IonButton } from '@ionic/vue';
 import TileViewPreview from '@/components/TileViewPreview.vue';
 import { defineComponent } from 'vue';
 
   export default defineComponent({
-    components: { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, TileViewPreview },
+    components: { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, TileViewPreview,IonButton },
     setup() {
       const actionSheetButtons = [
         {
