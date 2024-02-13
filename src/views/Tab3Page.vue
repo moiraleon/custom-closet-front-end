@@ -29,10 +29,12 @@
 <script lang="ts">
 import {defineComponent, ref } from 'vue';
 import {IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
-
+import { isAuthenticated } from '@/router/index';
+import { useRouter } from 'vue-router';
 export default defineComponent({
       components: { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonPage},
       setup() {
+        const router = useRouter();
         const avatar = ref('path/to/avatar.jpg');
         const firstName = ref('John');
         const lastName = ref('Doe');
@@ -43,6 +45,9 @@ export default defineComponent({
         };  
         const logout = () => {
           console.log('Logging out...');
+          isAuthenticated.value = false;
+          console.log(isAuthenticated.value);
+          router.push('/');
         };
         return {
           avatar,
