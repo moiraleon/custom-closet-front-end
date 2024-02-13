@@ -26,3 +26,9 @@
 import { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouterOutlet } from '@ionic/vue';
 import { body, addCircle, settings } from 'ionicons/icons';
 </script>
+<style>
+.tab-selected{
+  background: rgb(187, 187, 187) !important;
+  color: white !important;
+}
+</style>

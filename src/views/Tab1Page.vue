@@ -5,17 +5,17 @@
         <ion-title>Customize Outfit</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content :fullscreen="true">
+    <ion-content class="ion-padding ion-text-center" :fullscreen="true">
       <ion-header collapse="condense">
         <ion-toolbar>
           <ion-title size="large">Tab 1</ion-title>
         </ion-toolbar>
       </ion-header>
-      <!-- <div id="tile-column"> -->
-        <ViewItemCardSlider name="Tile 1" />
-        <ViewItemCardSlider name="Tile 2" />
-        <ViewItemCardSlider name="Tile 3" />
-      <!-- </div> -->
+      <div id="tile-column">
+        <ViewItemCardSlider class="ion-align-items-center" name="Tile 1" />
+        <ViewItemCardSlider class="ion-align-items-center" name="Tile 2" />
+        <ViewItemCardSlider class="ion-align-items-center" name="Tile 3" />
+      </div>
     </ion-content>
   </ion-page>
 </template>
@@ -29,7 +29,13 @@ import ViewItemCardSlider from '@/components/ViewItemCardSlider.vue';
 #tile-column{
   display: flex;
   flex-direction: column;
+}
+
+@media only screen and (min-width: 550px) {
+  #tile-column{
   align-items: center;
   justify-content: center;
+  width: inherit;
+}
 }
 </style>

@@ -74,5 +74,8 @@
   .tile{
     max-width: 500px;
   }
+  .tile img{
+    width: auto;
+  }
   </style>
   
