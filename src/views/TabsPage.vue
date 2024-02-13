@@ -30,5 +30,6 @@ import { body, addCircle, settings } from 'ionicons/icons';
 .tab-selected{
   background: rgb(187, 187, 187) !important;
   color: white !important;
+  border-radius:10px;
 }
 </style>
