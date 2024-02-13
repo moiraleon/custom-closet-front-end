@@ -8,7 +8,7 @@
           <ion-card-subtitle>Add a new {{ addText }} to your closet library.</ion-card-subtitle>
           <TileViewPreview :tile1="tile1" :tile2="tile2" :tile3="tile3" />  
         </IonCardContent>
-          <ion-button :id="'open-action-sheet-' + tag">Upload</ion-button>
+          <ion-button :id="'open-action-sheet-' + tag" :disabled="!enabled">Upload</ion-button>
         <ion-action-sheet :trigger="'open-action-sheet-' + tag" header="Actions" :buttons="actionSheetButtons"></ion-action-sheet>
       </ion-card>
       </div>
@@ -64,6 +64,10 @@ import { defineComponent } from 'vue';
       tile3: {
         type: Boolean,
         required: true,
+    },
+    enabled: {
+        type: Boolean,
+        required: false,
     }
   },
   });

@@ -1,57 +1,65 @@
 <template>
-  <ion-card>
-      <swiper :loop="true">
-      <swiper-slide>Slide 1
+  <ion-card class="tile">
+      <swiper 
+      :loop="true"
+      :modules="modules"
+    :space-between="0"
+    navigation
+    :pagination="{clickable: true }"
+    :scrollbar="{draggable: true }"
+    @swiper="onSwiper"
+    @slideChange="onSlideChange"
+      >
+      <swiper-slide>
         <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
       </swiper-slide>
-      <swiper-slide>Slide 2
+      <swiper-slide>
         <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
       </swiper-slide>
-      <swiper-slide>Slide 3
+      <swiper-slide>
+        <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
+      </swiper-slide>
+      <swiper-slide>
+        <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
+      </swiper-slide>
+      <swiper-slide>
         <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
       </swiper-slide>
       </swiper>
-    <ion-card-header>
+    <!-- <ion-card-header>
       <ion-card-title>{{name}}</ion-card-title>
-      <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-    </ion-card-header>
-    <ion-card-content>
-      Here's a small text description for the card content. Nothing more, nothing less.
-    </ion-card-content>
+    </ion-card-header> -->
   </ion-card>
   </template>
   <script lang="ts">
   import { defineComponent } from 'vue';
   //  import { Autoplay, Keyboard, Pagination, Scrollbar, Zoom } from 'swiper';
-  import { Swiper, SwiperSlide } from 'swiper/vue';
-  import {IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
+  import { Swiper, SwiperSlide,useSwiper } from 'swiper/vue';
+  import { Navigation, Pagination, Scrollbar, A11y, Keyboard, Zoom} from 'swiper/modules';
+  import {IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonicSlides } from '@ionic/vue';
   
   import 'swiper/css';
   import '@ionic/vue/css/ionic-swiper.css';
+  import 'swiper/css/autoplay';
+  import 'swiper/css/keyboard';
+  import 'swiper/css/pagination';
+  import 'swiper/css/scrollbar';
+  import 'swiper/css/zoom';
 
     export default defineComponent({
-      components: { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, Swiper, SwiperSlide, IonContent, IonPage},
+      components: { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, Swiper, SwiperSlide, IonContent, IonPage, A11y},
       setup() {
-        // const actionSheetButtons = [
-        //   {
-        //     text: 'Upload',
-        //     data: {
-        //       action: 'upload',
-        //     },
-        //   },
-        //   {
-        //     text: 'Cancel',
-        //     role: 'cancel',
-        //     data: {
-        //       action: 'cancel',
-        //     },
-        //   },
-        // ];
-  
-        // return { actionSheetButtons };
-      //   return {
-      //   modules: [Autoplay, Keyboard, Pagination, Scrollbar, Zoom],
-      // };
+        // const swiper = useSwiper();
+        const onSwiper = (swiper) => {
+        console.log(swiper);
+      };
+      const onSlideChange = () => {
+      };  
+        return {
+        onSwiper,
+        onSlideChange,
+        modules: [Navigation, Keyboard, Pagination, Scrollbar, Zoom, IonicSlides],
+      };
       },
       props: {
         name: {
@@ -63,29 +71,8 @@
   </script>
   
   <style scoped>
-  #container {
-    text-align: center;
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-  
-  #container strong {
-    font-size: 20px;
-    line-height: 26px;
-  }
-  
-  #container p {
-    font-size: 16px;
-    line-height: 22px;
-    color: #8c8c8c;
-    margin: 0;
-  }
-  
-  #container a {
-    text-decoration: none;
+  .tile{
+    max-width: 500px;
   }
   </style>
   

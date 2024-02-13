@@ -25,5 +25,4 @@
 <script setup lang="ts">
 import { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouterOutlet } from '@ionic/vue';
 import { body, addCircle, settings } from 'ionicons/icons';
-import { addIcons } from 'ionicons';
 </script>
