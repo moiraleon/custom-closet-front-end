@@ -20,7 +20,8 @@
               <ion-input v-model="email"></ion-input>
             </ion-item>
           </ion-card-content>
-          <ion-button expand="full" @click="submitForm">Submit</ion-button>
+          <ion-button expand="full" @click="login">Sign In</ion-button>
+          <ion-button expand="full" @click="registerRedirect">Create Account</ion-button>
         </ion-card>
       </ion-content>
     </ion-page>
@@ -40,23 +41,22 @@
         const email = ref('john.doe@example.com');
         //const isAuthenticated = ref(false); // New reference for local authentication state
 
-        const submitForm = () => {
-          console.log('Validating user credentials...');
-        // Perform authentication (in a real scenario, use a secure authentication mechanism)
-          // Set $isAuthenticated.value to true upon successful login
-        //   this.$isAuthenticated.value = true;
-        //   //isAuthenticated.value = true;
-        //   console.log(this.$isAuthenticated.value);
+        const login = () => {
+        console.log('Validating user credentials...');
         isAuthenticated.value = true;
         console.log(isAuthenticated.value);
 
           // Redirect to a protected route or perform other actions after login
           router.push('/tabs/tab1');
         };  
+        const registerRedirect = () =>{
+          router.push('/register');
+        }
         return {
           username,
           email,
-          submitForm,
+          login,
+          registerRedirect
       };
       },
     });
