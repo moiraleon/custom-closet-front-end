@@ -19,8 +19,10 @@ import { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle,I
 import TileViewPreview from '@/components/TileViewPreview.vue';
 import { defineComponent } from 'vue';
 
+// @ts-ignore
+import { IKImage, IKContext, IKVideo, IKUpload } from "imagekitio-vue";
   export default defineComponent({
-    components: { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, TileViewPreview,IonButton },
+    components: { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, TileViewPreview,IonButton, IKImage, IKContext, IKVideo, IKUpload},
     setup() {
       const actionSheetButtons = [
         {
