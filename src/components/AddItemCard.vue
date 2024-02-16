@@ -10,7 +10,7 @@
         </IonCardContent>
           <input type="file" accept="image/*,.heic" />
           <ion-button :id="'open-action-sheet-' + tag" :disabled="!enabled">Upload</ion-button>
-        <ion-action-sheet :trigger="'open-action-sheet-' + tag" :header="'Upload ' + tag + ' to your closet library'" :buttons="actionSheetButtons"></ion-action-sheet>
+        <ion-action-sheet :trigger="'open-action-sheet-' + tag" :header="'Upload a new ' + addText + ' to your closet library'" :buttons="actionSheetButtons"></ion-action-sheet>
       </ion-card>
       </div>
 </template>
