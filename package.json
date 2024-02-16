@@ -20,6 +20,7 @@
     "@ionic/angular": "^7.7.1",
     "@ionic/vue": "^7.7.1",
     "@ionic/vue-router": "^7.7.1",
+    "heic2any": "^0.0.4",
     "imagekitio-vue": "^3.0.0",
     "ionicons": "^7.0.0",
     "swiper": "^11.0.6",
