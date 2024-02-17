@@ -24,9 +24,11 @@
         </ion-toolbar>
       </ion-header>
       <ion-content class="ion-padding">
-        <ion-item>
+        <ion-title>Please choose an image</ion-title>
+        <ion-item class="upload-image-container">
           <input :id="'input-'+tag" type="file" accept="image/jpeg, image/heic, image/png" @change="event => handleFileInput(event, tag)"  /><br />
-          <img :id="'preview-' + tag" ref="preview" class="upload-preview-default-hidden" height="200" alt="Image preview" />
+          <img :id="'preview-' + tag" ref="preview" class="default-hidden" height="200" alt="Image preview" />
+          <ion-button :id="'continue-' + tag" class="default-hidden" @click="uploadImage()">Continue</ion-button>
           <!-- <ion-input
             label="Enter your name"
             label-placement="stacked"
@@ -35,6 +37,17 @@
             placeholder="Your name"
           ></ion-input> -->
         </ion-item>
+        <div class="sample-app">
+    <p>Upload</p>
+    <IKContext
+      :publicKey="publicKey"
+      :urlEndpoint="urlEndpoint"
+      :authenticationEndpoint="authenticationEndpoint"
+    >
+      <IKUpload fileName="abc.jpg" v-bind:tags="['tag1']" v-bind:responseFields="['tags']"/>
+    </IKContext>
+    <p>To use this funtionality please remember to setup the server</p>
+  </div>
       </ion-content>
     </ion-modal>
 </template>
@@ -48,6 +61,9 @@ import { defineComponent, ref } from 'vue';
 // @ts-ignore
 import { IKImage, IKContext, IKVideo, IKUpload } from "imagekitio-vue";
 import heic2any from "heic2any";
+import config from '../vars';
+// import dotenv from 'dotenv';
+// dotenv.config();
 
 export default defineComponent({
   components: { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, TileViewPreview, IonButton, IonModal, IKImage, IKContext, IKVideo, IKUpload },
@@ -72,6 +88,7 @@ export default defineComponent({
     const handleFileInput = (event,tag) => {
       const file = event.target.files[0];
       const preview = document.getElementById("preview-"+tag);
+      const approveAndContinue = document.getElementById("continue-"+tag);
       
       if (file) {
         if (file.type === "image/heic") {
@@ -82,7 +99,8 @@ export default defineComponent({
             };
             //Encode and display preview
             reader.readAsDataURL(jpegBlob);
-            preview?.classList.remove('upload-preview-default-hidden')
+            preview?.classList.remove('default-hidden')
+            approveAndContinue?.classList.remove('default-hidden')
           });
         } else {
           const reader = new FileReader();
@@ -91,7 +109,8 @@ export default defineComponent({
           };
           //Encode and display preview
           reader.readAsDataURL(file);
-          preview?.classList.remove('upload-preview-default-hidden')
+          preview?.classList.remove('default-hidden')
+          approveAndContinue?.classList.remove('default-hidden')
         }
       }
     };
@@ -116,10 +135,22 @@ export default defineComponent({
       heicReader.readAsArrayBuffer(heicFile);
     };
 
+    //Upload Image to store and return URL
 
+    const uploadImage = () =>{
+
+
+    };
 
     // return { actionSheetButtons, uploadImageToImageKitIO, handleFileInput };
-    return { modal, cancel, confirm, onWillDismiss, handleFileInput };
+    return { modal, cancel, confirm, onWillDismiss, handleFileInput, uploadImage};
+  },
+  data() {
+    return {
+      urlEndpoint: process.env.VUE_APP_URL_ENDPOINT,
+      publicKey: process.env.VUE_APP_PUBLIC_KEY,
+      authenticationEndpoint: process.env.VUE_APP_AUTHENTICATION_ENDPOINT
+    };
   },
   props: {
     name: {
@@ -155,7 +186,12 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.upload-preview-default-hidden{
+.default-hidden{
   display: none;
+}
+
+.upload-image-container{
+  display: flex;
+  flex-direction: row;
 }
 </style>
