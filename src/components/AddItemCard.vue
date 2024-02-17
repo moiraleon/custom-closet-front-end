@@ -147,9 +147,9 @@ export default defineComponent({
   },
   data() {
     return {
-      urlEndpoint: process.env.VUE_APP_URL_ENDPOINT,
-      publicKey: process.env.VUE_APP_PUBLIC_KEY,
-      authenticationEndpoint: process.env.VUE_APP_AUTHENTICATION_ENDPOINT
+      // urlEndpoint: process.env.VUE_APP_URL_ENDPOINT,
+      // publicKey: process.env.VUE_APP_PUBLIC_KEY,
+      // authenticationEndpoint: process.env.VUE_APP_AUTHENTICATION_ENDPOINT
     };
   },
   props: {
