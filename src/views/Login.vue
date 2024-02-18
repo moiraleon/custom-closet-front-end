@@ -11,12 +11,41 @@
             <ion-card-title>Login Form</ion-card-title>
           </ion-card-header>
           <ion-card-content>
+            <form @submit.prevent="validateUser">
             <ion-item>
-              <ion-input class="login-input" label="Email" label-placement="floating" fill="outline" v-model="email" ref="emailInput" aria-label="Email" type="email" error-text="Invalid email" @ionInput="validate" @ionBlur="markTouched" :counter="true" :maxlength="45"></ion-input>
+              <ion-input
+                class="login-input"
+                color="secondary"
+                label="Email"
+                label-placement="floating"
+                fill="outline"
+                v-model="email"
+                ref="emailInput"
+                aria-label="Email"
+                type="email"
+                error-text="Invalid email"
+                @ionInput="validate"
+                @ionBlur="markTouched"
+                :counter="true"
+                :maxlength="45"
+              ></ion-input>
             </ion-item>
             <ion-item>
-              <ion-input class="login-input" label="Password" label-placement="floating" fill="outline" v-model="password" ref="passwordInput" aria-label="Password" type="password" :counter="true" :maxlength="60"></ion-input>
+              <ion-input
+                class="login-input"
+                color="secondary"
+                label="Password"
+                label-placement="floating"
+                fill="outline"
+                v-model="password"
+                ref="passwordInput"
+                aria-label="Password"
+                type="password"
+                :counter="true"
+                :maxlength="60"
+              ></ion-input>
             </ion-item>
+          </form>
           </ion-card-content>
           <ion-button expand="full" @click="validateUser">Sign In</ion-button>
           <ion-button expand="full" @click="registerRedirect">Create Account</ion-button>
@@ -30,6 +59,7 @@
   import {defineComponent, ref } from 'vue';
   import { useRouter } from 'vue-router';
   import { isAuthenticated } from '@/router/index';
+  import { eye, lockClosed } from 'ionicons/icons';
   
 
   import { login } from '../services/authServices';
@@ -92,7 +122,9 @@
           email,
           password,
           validateUser,
-          registerRedirect
+          registerRedirect,
+          eye,
+          lockClosed
       };
       },
     });
