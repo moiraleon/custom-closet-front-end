@@ -1,6 +1,5 @@
 import axios from 'axios';
-
-const API_BASE_URL = process.env.API_BASE_URL;
+import { API_BASE_URL } from '../../config';
 
 //Fetch user avatar by id
 export async function getUserAvatar(userId: string) {

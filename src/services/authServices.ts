@@ -1,6 +1,5 @@
 import axios from 'axios';
-
-const API_BASE_URL = process.env.API_BASE_URL;
+import { API_BASE_URL } from '../../config';
 
 //Login user after credential validation
 export async function login(email: string, password: string) {
