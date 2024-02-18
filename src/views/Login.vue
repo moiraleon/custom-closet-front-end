@@ -52,7 +52,9 @@
 
             // Call login function with emailValue and passwordValue
             const userData = await login(emailValue, passwordValue);
-            console.log('User data:', userData);
+            
+            // After successful login, store the user ID in localStorage
+            localStorage.setItem('userId', userData.UID);
 
             // If login is successful, redirect to the home page
             isAuthenticated.value = true;
