@@ -28,11 +28,11 @@
 
 <script lang="ts">
 import {defineComponent, ref } from 'vue';
-import {IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
+import {IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonImg } from '@ionic/vue';
 import { isAuthenticated } from '@/router/index';
 import { useRouter } from 'vue-router';
 export default defineComponent({
-      components: { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonPage},
+      components: { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonPage, IonToolbar, IonHeader, IonButton, IonImg, IonTitle},
       setup() {
         const router = useRouter();
         const avatar = ref('path/to/avatar.jpg');

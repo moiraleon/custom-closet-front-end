@@ -29,13 +29,13 @@
 
 
 <script lang="ts">
-import { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouterOutlet } from '@ionic/vue';
+import { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouterOutlet, IonItem } from '@ionic/vue';
 import {defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { isAuthenticated } from '@/router/index';
 
 export default defineComponent({
-    components: { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouterOutlet},
+    components: { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouterOutlet, IonItem},
     setup() {
       const router = useRouter();
       const username = ref('testusername');

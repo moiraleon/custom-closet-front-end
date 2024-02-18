@@ -53,7 +53,7 @@
 </template>
 
 <script lang="ts">
-import { IonCard, IonModal, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonButton } from '@ionic/vue';
+import { IonCard, IonModal, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonButton, IonItem, IonTitle, IonToolbar, IonButtons, IonHeader, IonContent } from '@ionic/vue';
 import TileViewPreview from '@/components/TileViewPreview.vue';
 import { OverlayEventDetail } from '@ionic/core/components';
 import { defineComponent, ref } from 'vue';
@@ -62,11 +62,9 @@ import { defineComponent, ref } from 'vue';
 import { IKImage, IKContext, IKVideo, IKUpload } from "imagekitio-vue";
 import heic2any from "heic2any";
 import config from '../vars';
-// import dotenv from 'dotenv';
-// dotenv.config();
 
 export default defineComponent({
-  components: { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, TileViewPreview, IonButton, IonModal, IKImage, IKContext, IKVideo, IKUpload },
+  components: { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, TileViewPreview, IonButton, IonItem, IonModal, IonTitle, IonToolbar, IonButtons, IonHeader, IonContent, IKImage, IKContext, IKVideo, IKUpload },
   setup() {
     const modal = ref();
     // const input = ref();
