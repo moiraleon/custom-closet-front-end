@@ -12,12 +12,10 @@
           </ion-card-header>
           <ion-card-content>
             <ion-item>
-              <ion-label position="floating">Email</ion-label>
-              <ion-input v-model="email" ref="emailInput" aria-label="Email"></ion-input>
+              <ion-input label="Email" label-placement="floating" fill="outline" v-model="email" ref="emailInput" aria-label="Email" type="email" error-text="Invalid email" @ionInput="validate" @ionBlur="markTouched"></ion-input>
             </ion-item>
             <ion-item>
-              <ion-label position="floating">Password</ion-label>
-              <ion-input v-model="password" ref="passwordInput" aria-label="Password"></ion-input>
+              <ion-input label="Password" label-placement="floating" fill="outline" v-model="password" ref="passwordInput" aria-label="Password" type="password"></ion-input>
             </ion-item>
           </ion-card-content>
           <ion-button expand="full" @click="validateUser">Sign In</ion-button>
@@ -38,6 +36,30 @@
 
   export default defineComponent({
       components: { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouterOutlet, IonItem, IonTitle, IonCard, IonCardTitle, IonToolbar,IonHeader, IonCardContent, IonCardHeader, IonContent, IonButton, IonInput},
+      methods: {
+        validateEmail(email) {
+          return email.match(
+            /^(?=.{1,254}$)(?=.{1,64}@)[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+          );
+        },
+
+        validate(ev) {
+          const value = ev.target.value;
+
+          this.$refs.emailInput.$el.classList.remove('ion-valid');
+          this.$refs.emailInput.$el.classList.remove('ion-invalid');
+
+          if (value === '') return;
+
+          this.validateEmail(value)
+            ? this.$refs.emailInput.$el.classList.add('ion-valid')
+            : this.$refs.emailInput.$el.classList.add('ion-invalid');
+        },
+
+        markTouched() {
+          this.$refs.emailInput.$el.classList.add('ion-touched');
+        },
+      },
       setup() {
         const router = useRouter();
         const email = ref('');
