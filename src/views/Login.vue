@@ -14,7 +14,7 @@
             <form @submit.prevent="validateUser">
             <ion-item>
               <ion-input
-                class="login-input"
+                class="input-margin"
                 color="secondary"
                 label="Email"
                 label-placement="floating"
@@ -32,7 +32,7 @@
             </ion-item>
             <ion-item>
               <ion-input
-                class="login-input"
+                class="input-margin"
                 color="secondary"
                 label="Password"
                 label-placement="floating"
@@ -47,8 +47,12 @@
             </ion-item>
           </form>
           </ion-card-content>
-          <ion-button expand="full" @click="validateUser">Sign In</ion-button>
-          <ion-button expand="full" @click="registerRedirect">Create Account</ion-button>
+          <ion-item expand="full">
+          <ion-button @click="validateUser">Sign In</ion-button>
+          </ion-item>
+          <ion-item expand="full">
+          <ion-button @click="registerRedirect">Create Account</ion-button>
+        </ion-item>
         </ion-card>
       </ion-content>
     </ion-page>
@@ -58,8 +62,8 @@
   import { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouterOutlet, IonItem, IonTitle, IonCard, IonCardTitle, IonToolbar, IonHeader, IonCardContent, IonCardHeader, IonContent, IonButton, IonInput } from '@ionic/vue';
   import {defineComponent, ref } from 'vue';
   import { useRouter } from 'vue-router';
+  import { validate, markTouched } from '../utils/validators';
   import { isAuthenticated } from '@/router/index';
-  import { eye, lockClosed } from 'ionicons/icons';
   
 
   import { login } from '../services/authServices';
@@ -67,28 +71,8 @@
   export default defineComponent({
       components: { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouterOutlet, IonItem, IonTitle, IonCard, IonCardTitle, IonToolbar,IonHeader, IonCardContent, IonCardHeader, IonContent, IonButton, IonInput},
       methods: {
-        validateEmail(email) {
-          return email.match(
-            /^(?=.{1,254}$)(?=.{1,64}@)[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
-          );
-        },
-
-        validate(ev) {
-          const value = ev.target.value;
-
-          this.$refs.emailInput.$el.classList.remove('ion-valid');
-          this.$refs.emailInput.$el.classList.remove('ion-invalid');
-
-          if (value === '') return;
-
-          this.validateEmail(value)
-            ? this.$refs.emailInput.$el.classList.add('ion-valid')
-            : this.$refs.emailInput.$el.classList.add('ion-invalid');
-        },
-
-        markTouched() {
-          this.$refs.emailInput.$el.classList.add('ion-touched');
-        },
+        validate,
+        markTouched
       },
       setup() {
         const router = useRouter();
@@ -98,11 +82,8 @@
         //Handle Login and Authentication
         async function validateUser() {
           try {
-            // Access input values using $refs
             const emailValue = email.value;
             const passwordValue = password.value;
-
-            // Call login function with emailValue and passwordValue
             const userData = await login(emailValue, passwordValue);
             
             // After successful login, store the user ID in localStorage
@@ -123,15 +104,15 @@
           password,
           validateUser,
           registerRedirect,
-          eye,
-          lockClosed
+          validate,
+          markTouched
       };
       },
     });
   </script>
 
   <style scoped>
-  .login-input{
+  .input-margin{
     margin: 4px;
   }
   </style>
