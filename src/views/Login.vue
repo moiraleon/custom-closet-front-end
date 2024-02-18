@@ -12,10 +12,10 @@
           </ion-card-header>
           <ion-card-content>
             <ion-item>
-              <ion-input label="Email" label-placement="floating" fill="outline" v-model="email" ref="emailInput" aria-label="Email" type="email" error-text="Invalid email" @ionInput="validate" @ionBlur="markTouched"></ion-input>
+              <ion-input class="login-input" label="Email" label-placement="floating" fill="outline" v-model="email" ref="emailInput" aria-label="Email" type="email" error-text="Invalid email" @ionInput="validate" @ionBlur="markTouched" :counter="true" :maxlength="45"></ion-input>
             </ion-item>
             <ion-item>
-              <ion-input label="Password" label-placement="floating" fill="outline" v-model="password" ref="passwordInput" aria-label="Password" type="password"></ion-input>
+              <ion-input class="login-input" label="Password" label-placement="floating" fill="outline" v-model="password" ref="passwordInput" aria-label="Password" type="password" :counter="true" :maxlength="60"></ion-input>
             </ion-item>
           </ion-card-content>
           <ion-button expand="full" @click="validateUser">Sign In</ion-button>
@@ -99,4 +99,7 @@
   </script>
 
   <style scoped>
+  .login-input{
+    margin: 4px;
+  }
   </style>
