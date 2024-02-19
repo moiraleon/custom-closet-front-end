@@ -6,7 +6,6 @@
       :space-between="0"
       navigation
       :slides-per-view="1"
-      :slides-per-group="3"
       :pagination="{ clickable: true }"
       :scrollbar="{ draggable: true }"
       @swiper="onSwiper"
