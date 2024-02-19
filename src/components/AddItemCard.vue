@@ -37,7 +37,8 @@ import TileViewPreview from '@/components/TileViewPreview.vue';
 import { OverlayEventDetail } from '@ionic/core/components';
 import { defineComponent, ref } from 'vue';
 import { handleFileInput } from '../utils/validators';
-import {uploadImageToImageKit} from '../services/imageServices';
+import {retrieveSingleUseToken, uploadImageToImageKit} from '../services/imageServices';
+import {IMAGEKIT_PUBLIC_KEY} from '../../pvars'
 
 // @ts-ignore
 import { IKImage, IKContext, IKVideo, IKUpload } from "imagekitio-vue";
@@ -52,6 +53,7 @@ export default defineComponent({
     const modal = ref();
     const cancel = () => modal.value.$el.dismiss(null, 'cancel');
     const onWillDismiss = (ev: CustomEvent<OverlayEventDetail>) => modal.value.$el.dismiss(null, 'cancel');
+    const stringifiedImageOptions = [{"name": "remove-bg","options": {"add_shadow": true,"bg_color": "white"}}];
 
     //Upload Image to ImageKitIO
     async function uploadImage(tag:String){
@@ -59,12 +61,23 @@ export default defineComponent({
       const base64File = (document.querySelector('#preview-'+tag) as HTMLImageElement)?.src || '';
         if (userId && base64File) {
           try {
-            const body ={
-              tag: tag,
-              base64File:base64File
-            }
-            const imageData = await uploadImageToImageKit(userId, body);
-              console.log(imageData)
+            const singleUseAuth = await retrieveSingleUseToken()
+            console.log(singleUseAuth)
+
+            const body = new FormData();
+            // Append form fields to the FormData object
+            body.append('file', base64File); 
+            body.append('publicKey', IMAGEKIT_PUBLIC_KEY);
+            body.append('signature', singleUseAuth?.signature || '');
+            body.append('expire', singleUseAuth?.expire || '');
+            body.append('token', singleUseAuth?.token || '');
+            body.append('folder', `${userId}`);
+            body.append('fileName', `${userId}_${tag}.png`);
+            body.append('tags', `${tag}`);
+            body.append('extensions', JSON.stringify(stringifiedImageOptions));
+       
+             const imageData = await uploadImageToImageKit(body);
+             console.log(imageData)
               } catch (error) {
                 console.error('Failed to upload image:', error);
               }

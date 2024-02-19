@@ -31,4 +31,5 @@ npm-debug.log*
 /plugins
 /www
 /.env
-/.config
+config.ts
+pvars.ts

@@ -23,10 +23,25 @@ export async function updateUserAvatar(userId: string, userData: any) {
   }
 }
 
-//Upload image to imageKtiIO
-export async function uploadImageToImageKit(userId: string, body:object) {
+//Retrieve Single Use Image Kit Token
+export async function retrieveSingleUseToken() {
   try {
-    const response = await axios.put(`${API_BASE_URL}/api/images/uploadImageToImageKit/${userId}`, body);
+    const response = await axios.get(`${API_BASE_URL}/api/images/auth`);
+    return response.data;
+  } catch (error) {
+    console.error('Error updating user:', error);
+    throw error; 
+  }
+}
+
+//Upload image to imageKtiIO
+export async function uploadImageToImageKit(body:FormData) {
+  try {
+    const response = await axios.post(`https://upload.imagekit.io/api/v1/files/upload`, body, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
     return response.data;
   } catch (error) {
     console.error('Error uploading image:', error);
