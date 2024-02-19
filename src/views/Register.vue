@@ -75,6 +75,7 @@
               >
               </ion-input>
             </ion-item>
+            <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
           </form>
           </ion-card-content>
           <ion-item expand="full">
@@ -111,6 +112,7 @@ export default defineComponent({
       const lastName = ref('');
       const email = ref('');
       const password = ref('');
+      const errorMessage = ref('');
       
         //Handle Login and Authentication
         async function registerNewUser() {
@@ -120,15 +122,19 @@ export default defineComponent({
             const emailValue = email.value;
             const passwordValue = password.value;
             const userData = await register(emailValue, passwordValue, firstNameValue, lastNameValue);
-            
              // After successful login, store the user ID in localStorage
-             localStorage.setItem('userId', userData.UID);
+             localStorage.setItem('userId', userData.data.UID);
 
              // If login is successful, redirect to the home page
              isAuthenticated.value = true;
              router.push('/tabs/style');
           } catch (error) {
-            console.error('Failed to fetch user data:', error);
+            console.error('Failed to register new user:', error);
+              if (error.response && error.response.status === 409) {
+                errorMessage.value = error.response.data;
+              } else {
+                errorMessage.value = 'There was an error when creating a new user. Please try again later.';
+              }
           }
         }
 
@@ -143,7 +149,8 @@ export default defineComponent({
         registerNewUser,
         loginRedirect,
         validate,
-        markTouched
+        markTouched,
+        errorMessage
     };
     },
   });
@@ -153,4 +160,9 @@ export default defineComponent({
   .input-margin{
     margin: 4px;
   }
+
+  .error-message {
+  color: red;
+  margin-top: 10px;
+}
 </style>

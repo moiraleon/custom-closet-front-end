@@ -8,7 +8,7 @@
     <ion-content :fullscreen="true">
       <ion-header collapse="condense">
         <ion-toolbar>
-          <ion-title size="large">Tab 2</ion-title>
+          <ion-title size="large">Add New Items</ion-title>
         </ion-toolbar>
       </ion-header>
       <AddItemCard name="Tank-Top" tag="tanktop" addText="tank-top" :tile1="true" :tile2="false" :tile3="false" :enabled="true"/>

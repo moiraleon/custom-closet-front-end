@@ -8,7 +8,7 @@
     <ion-content class="ion-padding ion-text-center" :fullscreen="true">
       <ion-header collapse="condense">
         <ion-toolbar>
-          <ion-title size="large">Tab 1</ion-title>
+          <ion-title size="large">Customize Outfit</ion-title>
         </ion-toolbar>
       </ion-header>
       <div id="tile-column">
@@ -19,6 +19,17 @@
           <ViewItemCardSlider class="ion-align-items-center" name="Tile 1" :tileProductsArray="tile1Data" />
           <ViewItemCardSlider class="ion-align-items-center" name="Tile 2" :tileProductsArray="tile2Data" />
           <ViewItemCardSlider class="ion-align-items-center" name="Tile 3" :tileProductsArray="tile3Data" />
+          <ion-card v-if="tile1Data.length === 0 && tile2Data.length === 0 && tile3Data.length === 0">
+            <ion-card-header>
+              <ion-card-title>Uh oh!</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              It looks like you have no items to display yet. Go ahead and add some items to get started!
+            </ion-card-content>
+            <ion-item>
+              <ion-button @click="redirectToAddItemsPage">Add Items</ion-button>
+            </ion-item>
+          </ion-card>
         </div>
       </div>
     </ion-content>
@@ -31,10 +42,12 @@ import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue
 import ViewItemCardSlider from '@/components/ViewItemCardSlider.vue';
 import { getUserProducts } from '../services/productServices';
 import { tileConfig } from '../../tileConfig';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
   components: { IonPage, IonToolbar, IonHeader, IonTitle, IonContent, ViewItemCardSlider },
   setup() {
+    const router = useRouter();
     const loading = ref(true);
     const tile1Data = ref([]);
     const tile2Data = ref([]);
@@ -50,6 +63,7 @@ export default defineComponent({
           tile1Data.value = userProductDataResponse.data.filter(product => tileConfig.tile1.includes(product.PRODUCT_TYPE));
           tile2Data.value = userProductDataResponse.data.filter(product => tileConfig.tile2.includes(product.PRODUCT_TYPE));
           tile3Data.value = userProductDataResponse.data.filter(product => tileConfig.tile3.includes(product.PRODUCT_TYPE));
+
           console.log('User product data:', tile1Data.value,tile2Data.value,tile3Data.value); 
           loading.value = false; 
         }
@@ -58,7 +72,9 @@ export default defineComponent({
         loading.value = false; 
       }
     };
-
+    const redirectToAddItemsPage = () => {
+      router.push('/tabs/add');
+    };
     // Fetch user data on component mount
     onMounted(fetchUserProductData);
 
@@ -67,6 +83,7 @@ export default defineComponent({
       tile1Data,
       tile2Data,
       tile3Data,
+      redirectToAddItemsPage
     };
   },
 });

@@ -8,7 +8,7 @@
     <ion-content :fullscreen="true">
       <ion-header collapse="condense">
         <ion-toolbar>
-          <ion-title size="large">Tab 3</ion-title>
+          <ion-title size="large">Settings</ion-title>
         </ion-toolbar>
       </ion-header>
       <ion-card v-if="userDataFetched" class="profile-container">
