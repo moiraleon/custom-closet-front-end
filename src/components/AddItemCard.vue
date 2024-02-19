@@ -38,6 +38,7 @@ import { OverlayEventDetail } from '@ionic/core/components';
 import { defineComponent, ref } from 'vue';
 import { handleFileInput } from '../utils/validators';
 import {retrieveSingleUseToken, uploadImageToImageKit} from '../services/imageServices';
+import {createProduct} from '../services/productServices'
 import {IMAGEKIT_PUBLIC_KEY} from '../../pvars'
 
 // @ts-ignore
@@ -73,10 +74,21 @@ export default defineComponent({
             body.append('folder', `${userId}`);
             body.append('fileName', `${userId}_${tag}.jpg`);
             body.append('tags', `${tag}`);
-            body.append('extensions', JSON.stringify(stringifiedImageOptions));
+            //body.append('extensions', JSON.stringify(stringifiedImageOptions)); TODO: update limits - exceeded02/18
        
              const imageData = await uploadImageToImageKit(body);
              console.log(imageData)
+
+            const imageKitURL = imageData.url
+             const productBody = {
+              "userID": userId,
+              "productType": tag,
+              "img": imageKitURL,
+              "supported":true,
+             }
+             console.log(productBody)
+             const createProductData = await createProduct(productBody);
+             console.log(createProductData)
               } catch (error) {
                 console.error('Failed to upload image:', error);
               }
