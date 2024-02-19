@@ -60,7 +60,6 @@ export default defineComponent({
     const fetchUserData = async () => {
       try {
         const userId = localStorage.getItem('userId');
-        console.log(userId)
         if (userId) {
           const userDataResponse = await getUserById(userId);
           userData.value = userDataResponse;

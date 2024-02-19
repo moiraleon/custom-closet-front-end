@@ -133,7 +133,6 @@ export default defineComponent({
     async displayUserFeedback(uploadImageStatus: number, createProductStatus: number) {
       try {
         if (uploadImageStatus === 200 && createProductStatus === 201) {
-          console.log('The product was successfully created and uploaded');
           this.isSuccess = true;
         } else {
           console.log(`upload image status: ${uploadImageStatus} create product status: ${createProductStatus}`);

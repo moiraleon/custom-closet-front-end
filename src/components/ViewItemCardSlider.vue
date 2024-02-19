@@ -1,81 +1,72 @@
 <template>
   <ion-card class="tile">
-      <swiper 
+    <swiper
       :loop="true"
       :modules="modules"
-    :space-between="0"
-    navigation
-    :pagination="{clickable: true }"
-    :scrollbar="{draggable: true }"
-    @swiper="onSwiper"
-    @slideChange="onSlideChange"
-      >
-      <swiper-slide>
-        <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
-      </swiper-slide>
-      <swiper-slide>
-        <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
-      </swiper-slide>
-      <swiper-slide>
-        <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
-      </swiper-slide>
-      <swiper-slide>
-        <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
-      </swiper-slide>
-      <swiper-slide>
-        <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
-      </swiper-slide>
-      </swiper>
-    <!-- <ion-card-header>
-      <ion-card-title>{{name}}</ion-card-title>
-    </ion-card-header> -->
+      :space-between="0"
+      navigation
+      :slides-per-view="1"
+      :slides-per-group="3"
+      :pagination="{ clickable: true }"
+      :scrollbar="{ draggable: true }"
+      @swiper="onSwiper"
+      @slideChange="onSlideChange"
+    >
+      <template v-for="(product, index) in tileProductsArray" :key="index">
+        <swiper-slide>
+          <img :src="product.IMG" :alt="product.PRODUCT_TYPE" :id="product.PRODUCT_ID"/>
+        </swiper-slide>
+      </template>
+    </swiper>
   </ion-card>
-  </template>
-  <script lang="ts">
-  import { defineComponent } from 'vue';
-  //  import { Autoplay, Keyboard, Pagination, Scrollbar, Zoom } from 'swiper';
-  import { Swiper, SwiperSlide,useSwiper } from 'swiper/vue';
-  import { Navigation, Pagination, Scrollbar, A11y, Keyboard, Zoom} from 'swiper/modules';
-  import {IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonicSlides } from '@ionic/vue';
-  
-  import 'swiper/css';
-  import '@ionic/vue/css/ionic-swiper.css';
-  import 'swiper/css/autoplay';
-  import 'swiper/css/keyboard';
-  import 'swiper/css/pagination';
-  import 'swiper/css/scrollbar';
-  import 'swiper/css/zoom';
+</template>
 
-    export default defineComponent({
-      components: { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, Swiper, SwiperSlide, IonContent, IonPage, A11y},
-      setup() {
-        // const swiper = useSwiper();
-        const onSwiper = (swiper) => {
-        // console.log(swiper);
-      };
-      const onSlideChange = () => {
-      };  
-        return {
-        onSwiper,
-        onSlideChange,
-        modules: [Navigation, Keyboard, Pagination, Scrollbar, Zoom, IonicSlides],
-      };
-      },
-      props: {
-        name: {
-          type: String,
-          required: true,
-        }
+<script lang="ts">
+import { defineComponent } from 'vue';
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import { Navigation, Pagination, Scrollbar, Zoom } from 'swiper/modules';
+import { IonCard } from '@ionic/vue';
+
+import 'swiper/css';
+import '@ionic/vue/css/ionic-swiper.css';
+import 'swiper/css/autoplay';
+import 'swiper/css/keyboard';
+import 'swiper/css/pagination';
+import 'swiper/css/scrollbar';
+import 'swiper/css/zoom';
+
+export default defineComponent({
+  components: { IonCard, Swiper, SwiperSlide },
+  props: {
+    tileProductsArray: {
+      type: Array,
+      required: true,
     },
-    });
-  </script>
-  
-  <style scoped>
-  .tile{
-    max-width: 500px;
-  }
-  .tile img{
-    width: auto;
-  }
-  </style>
-  
+  },
+  setup(props) {
+    const { tileProductsArray } = props;
+
+    // Log the data
+    console.log('Tile Products Array:', tileProductsArray);
+
+    const onSwiper = (swiper) => {};
+    const onSlideChange = () => {};
+    
+    return {
+      onSwiper,
+      onSlideChange,
+      modules: [Navigation, Pagination, Scrollbar, Zoom],
+    };
+  },
+});
+</script>
+
+<style scoped>
+.tile {
+  max-width: 500px;
+}
+
+.tile img {
+  width: auto;
+}
+</style>
