@@ -22,3 +22,14 @@ export async function updateUserAvatar(userId: string, userData: any) {
     throw error; 
   }
 }
+
+//Upload image to imageKtiIO
+export async function uploadImageToImageKit(userId: string, body:object) {
+  try {
+    const response = await axios.put(`${API_BASE_URL}/api/images/uploadImageToImageKit/${userId}`, body);
+    return response.data;
+  } catch (error) {
+    console.error('Error uploading image:', error);
+    throw error;
+  }
+}

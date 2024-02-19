@@ -25,21 +25,21 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       {
         path: '',
-        redirect: '/tabs/tab1',
+        redirect: '/tabs/style',
         meta: { requiresAuth: true },
       },
       {
-        path: 'tab1',
+        path: 'style',
         component: () => import('@/views/Tab1Page.vue'),
         meta: { requiresAuth: true },
       },
       {
-        path: 'tab2',
+        path: 'add',
         component: () => import('@/views/Tab2Page.vue'),
         meta: { requiresAuth: true },
       },
       {
-        path: 'tab3',
+        path: 'settings',
         component: () => import('@/views/Tab3Page.vue'),
         meta: { requiresAuth: true },
       }

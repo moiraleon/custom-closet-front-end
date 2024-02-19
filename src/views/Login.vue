@@ -91,7 +91,7 @@
 
             // If login is successful, redirect to the home page
             isAuthenticated.value = true;
-            router.push('/tabs/tab1');
+            router.push('/tabs/style');
           } catch (error) {
             console.error('Failed to fetch user data:', error);
           }
