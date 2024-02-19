@@ -65,14 +65,13 @@ export default defineComponent({
             console.log(singleUseAuth)
 
             const body = new FormData();
-            // Append form fields to the FormData object
             body.append('file', base64File); 
             body.append('publicKey', IMAGEKIT_PUBLIC_KEY);
             body.append('signature', singleUseAuth?.signature || '');
             body.append('expire', singleUseAuth?.expire || '');
             body.append('token', singleUseAuth?.token || '');
             body.append('folder', `${userId}`);
-            body.append('fileName', `${userId}_${tag}.png`);
+            body.append('fileName', `${userId}_${tag}.jpg`);
             body.append('tags', `${tag}`);
             body.append('extensions', JSON.stringify(stringifiedImageOptions));
        
