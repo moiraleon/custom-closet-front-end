@@ -12,7 +12,7 @@
       @slideChange="onSlideChange"
     >
       <template v-for="(product, index) in tileProductsArray" :key="index">
-        <swiper-slide>
+        <swiper-slide class="closet-item-background-white">
           <img :src="product.IMG" :alt="product.PRODUCT_TYPE" :id="product.PRODUCT_ID"/>
         </swiper-slide>
       </template>
@@ -63,9 +63,14 @@ export default defineComponent({
 <style scoped>
 .tile {
   max-width: 500px;
+  background-color: white;
 }
 
 .tile img {
   width: auto;
+}
+
+.closet-item-background-white{
+  background-color: white;
 }
 </style>

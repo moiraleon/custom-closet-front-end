@@ -31,6 +31,26 @@
             </ion-item>
           </ion-card>
         </div>
+        <ion-toolbar>
+            <ion-buttons>
+              <ion-button @click="openFilter">
+                Filter
+                <ion-icon aria-hidden="true" :icon="funnelIcon" />
+              </ion-button>
+              <ion-button @click="refreshData" >
+                Refresh
+                <ion-icon aria-hidden="true" :icon="refreshIcon" />
+              </ion-button>
+              <ion-button @click="updateData">
+                Update
+                <ion-icon aria-hidden="true" :icon="checkmarkCircleOutlineIcon" />
+              </ion-button>
+              <ion-button @click="deleteData">
+                Delete
+                <ion-icon aria-hidden="true" :icon="trashIcon" />
+              </ion-button>
+            </ion-buttons>
+          </ion-toolbar>
       </div>
     </ion-content>
   </ion-page>
@@ -38,20 +58,49 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue';
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardContent, IonItem, IonButtons, IonButton, IonCardTitle, IonIcon } from '@ionic/vue';
 import ViewItemCardSlider from '@/components/ViewItemCardSlider.vue';
+import {refresh, trash, funnel ,checkmarkCircleOutline, funnelOutline, trashOutline } from 'ionicons/icons';
 import { getUserProducts } from '../services/productServices';
 import { tileConfig } from '../../tileConfig';
 import { useRouter } from 'vue-router';
 
 export default defineComponent({
-  components: { IonPage, IonToolbar, IonHeader, IonTitle, IonContent, ViewItemCardSlider },
+  components: { IonPage, IonToolbar, IonHeader, IonTitle, IonContent, ViewItemCardSlider, IonCard, IonCardHeader, IonCardContent, IonItem, IonButtons, IonButton, IonCardTitle, IonIcon},
   setup() {
     const router = useRouter();
+
+    const refreshIcon = refresh;
+    const trashIcon = trashOutline;
+    const funnelIcon = funnelOutline;
+    const checkmarkCircleOutlineIcon = checkmarkCircleOutline;
+
+
     const loading = ref(true);
     const tile1Data = ref([]);
     const tile2Data = ref([]);
     const tile3Data = ref([]);
+
+    const refreshData = () => {
+      // Implement refresh logic here
+      console.log('Refreshing data...');
+      fetchUserProductData()
+    };
+
+    const deleteData = () => {
+      // Implement delete logic here
+      console.log('Deleting data...');
+    };
+
+    const updateData = () => {
+      // Implement delete logic here
+      console.log('Updating data...');
+    };
+
+    const openFilter = () => {
+      // Implement filter logic here
+      console.log('Opening filter...');
+    }
 
     // Fetch user data and update tile data
     const fetchUserProductData = async () => {
@@ -83,6 +132,14 @@ export default defineComponent({
       tile1Data,
       tile2Data,
       tile3Data,
+      refreshData,
+      refreshIcon,
+      deleteData,
+      trashIcon,
+      openFilter,
+      funnelIcon,
+      updateData,
+      checkmarkCircleOutlineIcon,
       redirectToAddItemsPage
     };
   },
