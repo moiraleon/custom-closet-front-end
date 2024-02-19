@@ -11,12 +11,12 @@
       <ion-button :id="'open-modal-' + tag" expand="block">Upload</ion-button>
     </ion-card>
   </div>
-  <ion-modal ref="modal" :trigger="'open-modal-'+ tag" @willDismiss="onWillDismiss">
+  <ion-modal ref="modal" :trigger="'open-modal-'+ tag" :id="'modal-' + tag" >
       <ion-header>
         <ion-toolbar>
           <ion-title>Upload a new {{ addText }} </ion-title>
           <ion-buttons slot="end">
-            <ion-button :strong="true" @click="cancel()">Close</ion-button>
+            <ion-button :strong="true" @click="cancel(tag)">Close</ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
@@ -25,77 +25,124 @@
         <ion-item class="upload-image-container">
           <input :id="'input-'+tag" type="file" accept="image/jpeg, image/heic, image/png" @change="event => handleFileInput(event, tag)"  /><br />
           <img :id="'preview-' + tag" ref="preview" class="default-hidden" height="200" alt="Image preview" />
-          <ion-button :id="'continue-' + tag" class="default-hidden" @click="uploadImage(tag)">Continue</ion-button>
+          <ion-button :id="'continue-' + tag" class="default-hidden" @click="uploadImageAndCreateProduct(tag)" :disabled="false">Continue</ion-button>
         </ion-item>
+          <div v-if="isLoading">Loading...</div>
+          <div v-if="isSuccess">Success!</div>
+          <div v-if="isError">Failed to create product, please try again later.</div>
       </ion-content>
     </ion-modal>
 </template>
-
 <script lang="ts">
 import { IonCard, IonModal, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonButton, IonItem, IonTitle, IonToolbar, IonButtons, IonHeader, IonContent } from '@ionic/vue';
 import TileViewPreview from '@/components/TileViewPreview.vue';
 import { OverlayEventDetail } from '@ionic/core/components';
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, reactive } from 'vue';
 import { handleFileInput } from '../utils/validators';
-import {retrieveSingleUseToken, uploadImageToImageKit} from '../services/imageServices';
-import {createProduct} from '../services/productServices'
-import {IMAGEKIT_PUBLIC_KEY} from '../../pvars'
+import { retrieveSingleUseToken, uploadImageToImageKit } from '../services/imageServices';
+import { createProduct } from '../services/productServices';
+import { IMAGEKIT_PUBLIC_KEY } from '../../pvars';
 
 // @ts-ignore
 import { IKImage, IKContext, IKVideo, IKUpload } from "imagekitio-vue";
 
 export default defineComponent({
   components: { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, TileViewPreview, IonButton, IonItem, IonModal, IonTitle, IonToolbar, IonButtons, IonHeader, IonContent, IKImage, IKContext, IKVideo, IKUpload },
-  methods: {
-        handleFileInput
-      },
   setup() {
-
-    const modal = ref();
-    const cancel = () => modal.value.$el.dismiss(null, 'cancel');
-    const onWillDismiss = (ev: CustomEvent<OverlayEventDetail>) => modal.value.$el.dismiss(null, 'cancel');
-    const stringifiedImageOptions = [{"name": "remove-bg","options": {"add_shadow": true,"bg_color": "white"}}];
-
-    //Upload Image to ImageKitIO
-    async function uploadImage(tag:String){
-      const userId = localStorage.getItem('userId');
-      const base64File = (document.querySelector('#preview-'+tag) as HTMLImageElement)?.src || '';
-        if (userId && base64File) {
-          try {
-            const singleUseAuth = await retrieveSingleUseToken()
-            console.log(singleUseAuth)
-
-            const body = new FormData();
-            body.append('file', base64File); 
-            body.append('publicKey', IMAGEKIT_PUBLIC_KEY);
-            body.append('signature', singleUseAuth?.signature || '');
-            body.append('expire', singleUseAuth?.expire || '');
-            body.append('token', singleUseAuth?.token || '');
-            body.append('folder', `${userId}`);
-            body.append('fileName', `${userId}_${tag}.jpg`);
-            body.append('tags', `${tag}`);
-            //body.append('extensions', JSON.stringify(stringifiedImageOptions)); TODO: update limits - exceeded02/18
-       
-             const imageData = await uploadImageToImageKit(body);
-             console.log(imageData)
-
-            const imageKitURL = imageData.url
-             const productBody = {
-              "userID": userId,
-              "productType": tag,
-              "img": imageKitURL,
-              "supported":true,
-             }
-             console.log(productBody)
-             const createProductData = await createProduct(productBody);
-             console.log(createProductData)
-              } catch (error) {
-                console.error('Failed to upload image:', error);
-              }
-            }
+    // const modal = ref();
+    const cancel = (tag:String) => { 
+      const modal = document.querySelector('#modal-' + tag) as IonModal;
+        if (modal) {
+          modal.dismiss(null, 'cancel');
+        } else {
+          console.error('Modal not found for tag:', tag);
+        }
     };
 
-     return { modal, cancel, onWillDismiss, uploadImage, handleFileInput};
+    return{cancel}
+  },
+  data() {
+    return {
+      buttonDisabled: false,
+      isLoading: false,
+      isSuccess: false,
+      isError: false
+    };
+  },
+  methods: {
+    handleFileInput,
+    async uploadImageAndCreateProduct(tag: string) {
+      this.isLoading = true;
+      const userId = localStorage.getItem('userId');
+      const base64File = (document.querySelector('#preview-' + tag) as HTMLImageElement)?.src || '';
+      if (userId && base64File) {
+        try {
+          await this.disableUploadButton(tag);
+          const singleUseAuth = await retrieveSingleUseToken();
+          const imageData = await this.uploadImage(userId, tag, singleUseAuth);
+          const createProductData = await this.createProductInDB(userId, tag, imageData?.data);
+          const imageUploadStatus = imageData?.status || 0;
+          const createProductStatus = createProductData?.status || 0;
+          await this.displayUserFeedback(imageUploadStatus, createProductStatus);
+        } catch (error) {
+          console.error('Failed to upload image:', error);
+        }
+      }
+      this.isLoading = false;
+    },
+    async disableUploadButton(tag: string) {
+      const button = document.querySelector('#continue-' + tag) as HTMLButtonElement;
+      if (button) {
+        button.disabled = true;
+      }
+    },
+    async uploadImage(userId: string, tag: string, singleUseAuth: any) {
+      const base64File = (document.querySelector('#preview-' + tag) as HTMLImageElement)?.src || '';
+      if (userId && base64File) {
+        try {
+          const body = new FormData();
+          body.append('file', base64File);
+          body.append('publicKey', IMAGEKIT_PUBLIC_KEY);
+          body.append('signature', singleUseAuth?.signature || '');
+          body.append('expire', singleUseAuth?.expire || '');
+          body.append('token', singleUseAuth?.token || '');
+          body.append('folder', `${userId}`);
+          body.append('fileName', `${userId}_${tag}.jpg`);
+          body.append('tags', `${tag}`);
+          const imageData = await uploadImageToImageKit(body);
+          return imageData;
+        } catch (error) {
+          console.error('Failed to upload image:', error);
+        }
+      }
+    },
+    async createProductInDB(userId: string, tag: string, imageData: any) {
+      try {
+        const productBody = {
+          "userID": userId,
+          "productType": tag,
+          "img": imageData?.url,
+          "supported": true,
+        }
+        const createProductData = await createProduct(productBody);
+        return createProductData;
+      } catch (error) {
+        console.error('Failed to add product to DB:', error);
+      }
+    },
+    async displayUserFeedback(uploadImageStatus: number, createProductStatus: number) {
+      try {
+        if (uploadImageStatus === 200 && createProductStatus === 201) {
+          console.log('The product was successfully created and uploaded');
+          this.isSuccess = true;
+        } else {
+          console.log(`upload image status: ${uploadImageStatus} create product status: ${createProductStatus}`);
+          this.isError = true;
+        }
+      } catch (error) {
+        console.error('Failed to display user feedback:', error);
+      }
+    }
   },
   props: {
     name: {

@@ -5,7 +5,7 @@ import { API_BASE_URL } from '../../config';
 export async function createProduct(body: Object) {
   try {
     const response = await axios.post(`${API_BASE_URL}/api/products/createProduct`,body);
-    return response.data;
+    return response;
   } catch (error) {
     console.error('Error fetching user:', error);
     throw error; 

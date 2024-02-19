@@ -42,7 +42,7 @@ export async function uploadImageToImageKit(body:FormData) {
         'Content-Type': 'multipart/form-data'
       }
     });
-    return response.data;
+    return response;
   } catch (error) {
     console.error('Error uploading image:', error);
     throw error;
