@@ -6,7 +6,7 @@ import { getHeaders } from '../utils/authUtils';
 export async function createProduct(body: Object) {
   try {
     const headers = getHeaders()
-    const response = await axios.post(`${API_BASE_URL}/api/products/createProduct`,headers, body);
+    const response = await axios.post(`${API_BASE_URL}/api/products/createProduct`, body, headers);
     return response;
   } catch (error) {
     console.error('Error fetching user:', error);

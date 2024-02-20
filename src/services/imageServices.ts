@@ -18,7 +18,7 @@ export async function getUserAvatar(userId: string) {
 export async function updateUserAvatar(userId: string, userData: any) {
   try {
     const headers = getHeaders()
-    const response = await axios.put(`${API_BASE_URL}/api/images/updateAvatar/${userId}`, headers, userData);
+    const response = await axios.put(`${API_BASE_URL}/api/images/updateAvatar/${userId}`, userData, headers);
     return response.data;
   } catch (error) {
     console.error('Error updating user:', error);

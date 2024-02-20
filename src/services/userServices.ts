@@ -30,7 +30,7 @@ export async function getUserFirstNameById(userId: string) {
 export async function updateUserFirstNameById(userId: string, userData: any) {
   try {
     const headers = getHeaders()
-    const response = await axios.put(`${API_BASE_URL}/api/users/updateFirstName/${userId}`, headers, userData);
+    const response = await axios.put(`${API_BASE_URL}/api/users/updateFirstName/${userId}`, userData, headers);
     return response.data;
   } catch (error) {
     console.error('Error updating user:', error);
@@ -54,7 +54,7 @@ export async function getUserLastNameById(userId: string) {
 export async function updateUserLastNameById(userId: string, userData: any) {
   try {
     const headers = getHeaders()
-    const response = await axios.put(`${API_BASE_URL}/api/users/updateLastName/${userId}`, headers, userData);
+    const response = await axios.put(`${API_BASE_URL}/api/users/updateLastName/${userId}`, userData, headers);
     return response.data;
   } catch (error) {
     console.error('Error updating user:', error);
