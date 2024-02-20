@@ -95,7 +95,6 @@ import { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouter
 import {defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { validate, markTouched } from '../utils/validators';
-import { isAuthenticated } from '@/router/index';
 
 import { register } from '../services/authServices';
 

@@ -2,13 +2,13 @@
     <ion-page>
       <ion-header>
         <ion-toolbar>
-          <ion-title>Login</ion-title>
+          <ion-title>Custom Closet</ion-title>
         </ion-toolbar>
       </ion-header>
       <ion-content class="ion-padding">
         <ion-card>
           <ion-card-header>
-            <ion-card-title>Login Form</ion-card-title>
+            <ion-card-title>Login</ion-card-title>
           </ion-card-header>
           <ion-card-content>
             <form @submit.prevent="validateUser">
