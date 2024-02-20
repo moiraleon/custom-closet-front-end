@@ -11,6 +11,26 @@
           <ion-title size="large">Customize Outfit</ion-title>
         </ion-toolbar>
       </ion-header>
+              <ion-toolbar>
+            <ion-buttons class="mini-toolbar">
+              <ion-button @click="openFilter" color="dark">
+                Filter
+                <ion-icon aria-hidden="true" :icon="funnelIcon" />
+              </ion-button>
+              <ion-button @click="refreshData" color="dark">
+                Refresh
+                <ion-icon aria-hidden="true" :icon="refreshIcon" />
+              </ion-button>
+              <ion-button @click="updateData" color="dark">
+                Update
+                <ion-icon aria-hidden="true" :icon="checkmarkCircleOutlineIcon" />
+              </ion-button>
+              <ion-button @click="deleteData" color="dark">
+                Delete
+                <ion-icon aria-hidden="true" :icon="trashIcon" />
+              </ion-button>
+            </ion-buttons>
+          </ion-toolbar>
       <div id="tile-column">
         <div v-if="loading">
           Loading closet data...
@@ -31,26 +51,6 @@
             </ion-item>
           </ion-card>
         </div>
-        <ion-toolbar>
-            <ion-buttons class="mini-toolbar">
-              <ion-button @click="openFilter">
-                Filter
-                <ion-icon aria-hidden="true" :icon="funnelIcon" />
-              </ion-button>
-              <ion-button @click="refreshData" >
-                Refresh
-                <ion-icon aria-hidden="true" :icon="refreshIcon" />
-              </ion-button>
-              <ion-button @click="updateData">
-                Update
-                <ion-icon aria-hidden="true" :icon="checkmarkCircleOutlineIcon" />
-              </ion-button>
-              <ion-button @click="deleteData">
-                Delete
-                <ion-icon aria-hidden="true" :icon="trashIcon" />
-              </ion-button>
-            </ion-buttons>
-          </ion-toolbar>
       </div>
     </ion-content>
   </ion-page>
@@ -162,4 +162,5 @@ export default defineComponent({
     width: inherit;
   }
 }
+
 </style>

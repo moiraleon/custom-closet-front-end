@@ -18,7 +18,7 @@
           <ion-card-subtitle>{{ userData.EMAIL }}</ion-card-subtitle>
         </ion-card-header>
         <ion-card-content class="profile-actions">
-          <ion-button expand="full" @click="resetPassword">Reset Password</ion-button>
+          <ion-button expand="full" @click="resetPassword" :disabled="true">Reset Password</ion-button>
           <ion-button expand="full" @click="logout">Logout</ion-button>
         </ion-card-content>
       </ion-card>
@@ -112,6 +112,7 @@ export default defineComponent({
     display: flex;
     justify-content: space-between;
     margin-top: 20px;
+    flex-wrap: wrap;
   }
 
   button {
