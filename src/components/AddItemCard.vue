@@ -8,7 +8,7 @@
         <ion-card-subtitle>Add a new {{ addText }} to your closet library.</ion-card-subtitle>
         <TileViewPreview :tile1="tile1" :tile2="tile2" :tile3="tile3" />  
       </ion-card-content>
-      <ion-button :id="'open-modal-' + tag" expand="block">Upload</ion-button>
+      <ion-button :id="'open-modal-' + tag" expand="block" :disabled=disabled>Upload</ion-button>
     </ion-card>
   </div>
   <ion-modal ref="modal" :trigger="'open-modal-'+ tag" :id="'modal-' + tag" >
@@ -168,7 +168,7 @@ export default defineComponent({
       type: Boolean,
       required: true,
     },
-    enabled: {
+    disabled: {
       type: Boolean,
       required: false,
     },
