@@ -122,8 +122,9 @@ export default defineComponent({
             const emailValue = email.value;
             const passwordValue = password.value;
             const userData = await register(emailValue, passwordValue, firstNameValue, lastNameValue);
-             // After successful login, store the user ID in localStorage
+             // After successful registration, store the user ID and JWT in localStorage
              localStorage.setItem('userId', userData.data.UID);
+             localStorage.setItem('token', userData.data.token);
 
              // If login is successful, redirect to the home page
              isAuthenticated.value = true;

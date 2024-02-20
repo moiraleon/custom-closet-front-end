@@ -86,8 +86,9 @@
             const passwordValue = password.value;
             const userData = await login(emailValue, passwordValue);
             
-            // After successful login, store the user ID in localStorage
+            // After successful login, store the user ID and JWT in localStorage
             localStorage.setItem('userId', userData.UID);
+            localStorage.setItem('token', userData.token);
 
             // If login is successful, redirect to the home page
             isAuthenticated.value = true;
