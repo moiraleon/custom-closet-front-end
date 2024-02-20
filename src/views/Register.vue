@@ -127,9 +127,9 @@ export default defineComponent({
              localStorage.setItem('refreshToken', userData.data.refreshToken);
 
              // If login is successful, redirect to the home page
-             isAuthenticated.value = true;
+             localStorage.setItem('isAuthorized', "true")
              router.push('/tabs/style');
-          } catch (error) {
+          } catch (error:any) {
             console.error('Failed to register new user:', error);
               if (error.response && error.response.status === 409) {
                 errorMessage.value = error.response.data;

@@ -113,7 +113,7 @@ export default defineComponent({
           tile3Data.value = userProductDataResponse.data.filter(product => tileConfig.tile3.includes(product.PRODUCT_TYPE));
           loading.value = false; 
         }
-      } catch (error) {
+      } catch (error:any) {
         console.error('Failed to fetch user data:', error);
         loading.value = false; 
       }

@@ -8,7 +8,7 @@ export async function getUserById(userId: string) {
     const headers = getHeaders()
     const response = await axios.get(`${API_BASE_URL}/api/users/${userId}`,headers);
     return response.data;
-  } catch (error) {
+  } catch (error:any) {
     console.error('Error fetching user:', error);
     throw error; 
   }
@@ -20,7 +20,7 @@ export async function getUserFirstNameById(userId: string) {
       const headers = getHeaders()
       const response = await axios.get(`${API_BASE_URL}/api/users/getFirstName/${userId}`,headers);
       return response.data;
-    } catch (error) {
+    } catch (error:any) {
       console.error('Error fetching user:', error);
       throw error; 
     }
@@ -32,7 +32,7 @@ export async function updateUserFirstNameById(userId: string, userData: any) {
     const headers = getHeaders()
     const response = await axios.put(`${API_BASE_URL}/api/users/updateFirstName/${userId}`, userData, headers);
     return response.data;
-  } catch (error) {
+  } catch (error:any) {
     console.error('Error updating user:', error);
     throw error; 
   }
@@ -44,7 +44,7 @@ export async function getUserLastNameById(userId: string) {
       const headers = getHeaders()
       const response = await axios.get(`${API_BASE_URL}/api/users/getLastName/${userId}`,headers);
       return response.data;
-    } catch (error) {
+    } catch (error:any) {
       console.error('Error fetching user:', error);
       throw error; 
     }
@@ -56,7 +56,7 @@ export async function updateUserLastNameById(userId: string, userData: any) {
     const headers = getHeaders()
     const response = await axios.put(`${API_BASE_URL}/api/users/updateLastName/${userId}`, userData, headers);
     return response.data;
-  } catch (error) {
+  } catch (error:any) {
     console.error('Error updating user:', error);
     throw error; 
   }

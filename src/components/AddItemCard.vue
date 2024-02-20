@@ -84,7 +84,7 @@ export default defineComponent({
           const imageUploadStatus = imageData?.status || 0;
           const createProductStatus = createProductData?.status || 0;
           await this.displayUserFeedback(imageUploadStatus, createProductStatus);
-        } catch (error) {
+        } catch (error:any) {
           console.error('Failed to upload image:', error);
         }
       }
@@ -111,7 +111,7 @@ export default defineComponent({
           body.append('tags', `${tag}`);
           const imageData = await uploadImageToImageKit(body);
           return imageData;
-        } catch (error) {
+        } catch (error:any) {
           console.error('Failed to upload image:', error);
         }
       }
@@ -126,7 +126,7 @@ export default defineComponent({
         }
         const createProductData = await createProduct(productBody);
         return createProductData;
-      } catch (error) {
+      } catch (error:any) {
         console.error('Failed to add product to DB:', error);
       }
     },
@@ -138,7 +138,7 @@ export default defineComponent({
           console.log(`upload image status: ${uploadImageStatus} create product status: ${createProductStatus}`);
           this.isError = true;
         }
-      } catch (error) {
+      } catch (error:any) {
         console.error('Failed to display user feedback:', error);
       }
     }

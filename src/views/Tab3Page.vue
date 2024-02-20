@@ -64,7 +64,7 @@ export default defineComponent({
           userData.value = userDataResponse;
           userDataFetched.value = true;
         }
-      } catch (error) {
+      } catch (error:any) {
         console.error('Failed to fetch user data:', error);
       }
     };

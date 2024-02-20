@@ -8,7 +8,7 @@ export async function createProduct(body: Object) {
     const headers = getHeaders()
     const response = await axios.post(`${API_BASE_URL}/api/products/createProduct`, body, headers);
     return response;
-  } catch (error) {
+  } catch (error:any) {
     console.error('Error fetching user:', error);
     throw error; 
   }
@@ -20,7 +20,7 @@ export async function getUserProducts(userId: string) {
     const headers = getHeaders()
     const response = await axios.get(`${API_BASE_URL}/api/products/getAllUserProducts/${userId}`, headers);
     return response;
-  } catch (error) {
+  } catch (error:any) {
     console.error('Error fetching user products:', error);
     throw error; 
   }

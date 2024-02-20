@@ -8,7 +8,7 @@ export async function getUserAvatar(userId: string) {
       const headers = getHeaders()
       const response = await axios.get(`${API_BASE_URL}/api/images/getAvatar/${userId}`, headers);
       return response.data;
-    } catch (error) {
+    } catch (error:any) {
       console.error('Error fetching user:', error);
       throw error; 
     }
@@ -20,7 +20,7 @@ export async function updateUserAvatar(userId: string, userData: any) {
     const headers = getHeaders()
     const response = await axios.put(`${API_BASE_URL}/api/images/updateAvatar/${userId}`, userData, headers);
     return response.data;
-  } catch (error) {
+  } catch (error:any) {
     console.error('Error updating user:', error);
     throw error; 
   }
@@ -32,7 +32,7 @@ export async function retrieveSingleUseToken() {
     const headers = getHeaders()
     const response = await axios.get(`${API_BASE_URL}/api/images/auth`, headers);
     return response.data;
-  } catch (error) {
+  } catch (error:any) {
     console.error('Error updating user:', error);
     throw error; 
   }
@@ -47,7 +47,7 @@ export async function uploadImageToImageKit(body:FormData) {
       }
     });
     return response;
-  } catch (error) {
+  } catch (error:any) {
     console.error('Error uploading image:', error);
     throw error;
   }
