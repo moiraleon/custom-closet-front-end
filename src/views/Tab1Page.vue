@@ -32,7 +32,7 @@
           </ion-card>
         </div>
         <ion-toolbar>
-            <ion-buttons>
+            <ion-buttons class="mini-toolbar">
               <ion-button @click="openFilter">
                 Filter
                 <ion-icon aria-hidden="true" :icon="funnelIcon" />
@@ -58,7 +58,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue';
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardContent, IonItem, IonButtons, IonButton, IonCardTitle, IonIcon } from '@ionic/vue';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardContent, IonItem, IonButtons, IonButton, IonCardTitle, IonIcon, IonSegment, IonSegmentButton } from '@ionic/vue';
 import ViewItemCardSlider from '@/components/ViewItemCardSlider.vue';
 import {refresh, trash, funnel ,checkmarkCircleOutline, funnelOutline, trashOutline } from 'ionicons/icons';
 import { getUserProducts } from '../services/productServices';
@@ -66,7 +66,7 @@ import { tileConfig } from '../../tileConfig';
 import { useRouter } from 'vue-router';
 
 export default defineComponent({
-  components: { IonPage, IonToolbar, IonHeader, IonTitle, IonContent, ViewItemCardSlider, IonCard, IonCardHeader, IonCardContent, IonItem, IonButtons, IonButton, IonCardTitle, IonIcon},
+  components: { IonPage, IonToolbar, IonHeader, IonTitle, IonContent, ViewItemCardSlider, IonCard, IonCardHeader, IonCardContent, IonItem, IonButtons, IonButton, IonCardTitle, IonIcon, IonSegment, IonSegmentButton},
   setup() {
     const router = useRouter();
 
@@ -147,6 +147,12 @@ export default defineComponent({
 #tile-column {
   display: flex;
   flex-direction: column;
+}
+
+.mini-toolbar{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
 }
 
 @media only screen and (min-width: 550px) {
