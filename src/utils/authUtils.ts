@@ -6,6 +6,5 @@ export function getHeaders() {
       'Authorization': `Bearer ${JWT}` 
     }
   }
-  console.log(config)
     return config;
   }
