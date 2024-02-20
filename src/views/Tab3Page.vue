@@ -29,7 +29,6 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue';
 import { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonImg } from '@ionic/vue';
-import { isAuthenticated } from '@/router/index';
 import { useRouter } from 'vue-router';
 
 import { getUserById } from '../services/userServices';
@@ -52,8 +51,7 @@ export default defineComponent({
     };
     const logout = () => {
       console.log('Logging out...');
-      isAuthenticated.value = false;
-      console.log(isAuthenticated.value);
+      localStorage.removeItem('isAuthorized');
       router.push('/');
     };
 

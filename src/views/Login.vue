@@ -66,8 +66,6 @@
   import {defineComponent, ref } from 'vue';
   import { useRouter } from 'vue-router';
   import { validate, markTouched } from '../utils/validators';
-  import { isAuthenticated } from '@/router/index';
-  
 
   import { login } from '../services/authServices';
 
@@ -93,9 +91,7 @@
             // After successful login, store the user ID and JWT in localStorage
             localStorage.setItem('userId', userData.data.UID);
             localStorage.setItem('token', userData.data.token);
-
-            // If login is successful, redirect to the home page
-            isAuthenticated.value = true;
+            localStorage.setItem('isAuthorized', "true")
             router.push('/tabs/style');
           } catch (error: any) {
             console.error('Failed to log in user:', error);

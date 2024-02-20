@@ -3,9 +3,6 @@ import { RouteRecordRaw } from 'vue-router';
 import TabsPage from '../views/TabsPage.vue'
 import { ref } from 'vue'
 
-// const isAuthenticated = ref(false);
-export const isAuthenticated = ref(false);
-
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
@@ -53,8 +50,9 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
+  const isAuthenticated = localStorage.getItem('isAuthorized');
   // Check if the route requires authentication
-  if (to.meta.requiresAuth && !isAuthenticated.value) {
+  if (to.meta.requiresAuth && !isAuthenticated) {
     // Redirect to the login page if not authenticated
     next('/');
   } else {
