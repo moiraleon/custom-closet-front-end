@@ -5,7 +5,7 @@ import { API_BASE_URL } from '../../config';
 export async function login(email: string, password: string) {
   try {
     const response = await axios.post(`${API_BASE_URL}/api/auth/login`, { email, password });
-    return response.data;
+    return response;
   } catch (error) {
     console.error('Error logging in:', error);
     throw error; 

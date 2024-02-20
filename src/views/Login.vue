@@ -45,6 +45,9 @@
                 :maxlength="60"
               ></ion-input>
             </ion-item>
+            <div v-if="errorMessage" class="error-message">
+              {{ errorMessage }}
+            </div>
           </form>
           </ion-card-content>
           <ion-item expand="full">
@@ -78,6 +81,7 @@
         const router = useRouter();
         const email = ref('');
         const password = ref('');
+        const errorMessage = ref<string | null>(null);
 
         //Handle Login and Authentication
         async function validateUser() {
@@ -87,14 +91,20 @@
             const userData = await login(emailValue, passwordValue);
             
             // After successful login, store the user ID and JWT in localStorage
-            localStorage.setItem('userId', userData.UID);
-            localStorage.setItem('token', userData.token);
+            localStorage.setItem('userId', userData.data.UID);
+            localStorage.setItem('token', userData.data.token);
 
             // If login is successful, redirect to the home page
             isAuthenticated.value = true;
             router.push('/tabs/style');
-          } catch (error) {
-            console.error('Failed to fetch user data:', error);
+          } catch (error: any) {
+            console.error('Failed to log in user:', error);
+            if (error?.response && error?.response?.status === 401) {
+              const responseMessage = 'Invalid User credentials provided. Please verify your password is correct and try again.';
+              errorMessage.value = responseMessage; 
+            } else {
+              errorMessage.value = 'Something went wrong trying to log in that user. Please try again later.';
+            }
           }
         }
         const registerRedirect = () =>{
@@ -106,14 +116,16 @@
           validateUser,
           registerRedirect,
           validate,
-          markTouched
+          markTouched,
+          errorMessage
       };
       },
     });
   </script>
 
-  <style scoped>
-  .input-margin{
-    margin: 4px;
-  }
+<style scoped>
+.error-message {
+  color: red;
+  margin-top: 10px;
+}
   </style>
