@@ -1,10 +1,12 @@
 import axios from 'axios';
 import { API_BASE_URL } from '../../config';
+import { getHeaders } from '../utils/authUtils';
 
 //Fetch user avatar by id
 export async function getUserAvatar(userId: string) {
     try {
-      const response = await axios.get(`${API_BASE_URL}/api/images/getAvatar/${userId}`);
+      const headers = getHeaders()
+      const response = await axios.get(`${API_BASE_URL}/api/images/getAvatar/${userId}`, headers);
       return response.data;
     } catch (error) {
       console.error('Error fetching user:', error);
@@ -15,7 +17,8 @@ export async function getUserAvatar(userId: string) {
 //Update user avatar by id
 export async function updateUserAvatar(userId: string, userData: any) {
   try {
-    const response = await axios.put(`${API_BASE_URL}/api/images/updateAvatar/${userId}`, userData);
+    const headers = getHeaders()
+    const response = await axios.put(`${API_BASE_URL}/api/images/updateAvatar/${userId}`, headers, userData);
     return response.data;
   } catch (error) {
     console.error('Error updating user:', error);
@@ -26,7 +29,8 @@ export async function updateUserAvatar(userId: string, userData: any) {
 //Retrieve Single Use Image Kit Token
 export async function retrieveSingleUseToken() {
   try {
-    const response = await axios.get(`${API_BASE_URL}/api/images/auth`);
+    const headers = getHeaders()
+    const response = await axios.get(`${API_BASE_URL}/api/images/auth`, headers);
     return response.data;
   } catch (error) {
     console.error('Error updating user:', error);
