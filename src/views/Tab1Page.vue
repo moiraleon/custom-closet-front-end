@@ -108,12 +108,9 @@ export default defineComponent({
         const userId = localStorage.getItem('userId');
         if (userId) {
           const userProductDataResponse = await getUserProducts(userId);
-          console.log('User product data:', userProductDataResponse.data); 
           tile1Data.value = userProductDataResponse.data.filter(product => tileConfig.tile1.includes(product.PRODUCT_TYPE));
           tile2Data.value = userProductDataResponse.data.filter(product => tileConfig.tile2.includes(product.PRODUCT_TYPE));
           tile3Data.value = userProductDataResponse.data.filter(product => tileConfig.tile3.includes(product.PRODUCT_TYPE));
-
-          console.log('User product data:', tile1Data.value,tile2Data.value,tile3Data.value); 
           loading.value = false; 
         }
       } catch (error) {
