@@ -52,8 +52,7 @@ export default defineComponent({
     };
     const logout = () => {
       console.log('Logging out...');
-      isAuthenticated.value = false;
-      console.log(isAuthenticated.value);
+      localStorage.setItem('isAuthenticated', "true");
       router.push('/');
     };
 
