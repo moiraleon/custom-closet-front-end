@@ -124,6 +124,7 @@ export default defineComponent({
              // After successful registration, store the user ID and JWT in localStorage
              localStorage.setItem('userId', userData.data.UID);
              localStorage.setItem('token', userData.data.token);
+             localStorage.setItem('refreshToken', userData.data.refreshToken);
 
              // If login is successful, redirect to the home page
              isAuthenticated.value = true;

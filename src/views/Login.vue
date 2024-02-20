@@ -91,6 +91,7 @@
             // After successful login, store the user ID and JWT in localStorage
             localStorage.setItem('userId', userData.data.UID);
             localStorage.setItem('token', userData.data.token);
+            localStorage.setItem('refreshToken', userData.data.refreshToken);
             localStorage.setItem('isAuthorized', "true")
             router.push('/tabs/style');
           } catch (error: any) {
