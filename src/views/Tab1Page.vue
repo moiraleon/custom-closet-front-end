@@ -50,6 +50,16 @@
               <ion-button @click="redirectToAddItemsPage">Add Items</ion-button>
             </ion-item>
           </ion-card>
+          <ion-card v-if="tile1Data.length === 0 && tile2Data.length === 0 && tile3Data.length === 0">
+            <ion-card-header>
+            </ion-card-header>
+            <ion-card-content>
+              Already added items? Refresh this page
+              <ion-item>
+                <ion-button @click="refreshData">Refresh</ion-button>
+              </ion-item>
+            </ion-card-content>
+          </ion-card>
         </div>
       </div>
     </ion-content>
