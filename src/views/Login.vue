@@ -91,7 +91,7 @@
             localStorage.setItem('token', userData.token);
 
             // If login is successful, redirect to the home page
-            localStorage.setItem('isAuthenticated', "true");
+            isAuthenticated.value = true;
             router.push('/tabs/style');
           } catch (error) {
             console.error('Failed to fetch user data:', error);

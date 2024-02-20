@@ -54,14 +54,13 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   // Check if the route requires authentication
-  const storageAuth = localStorage.getItem('isAuthenticated');
-  // Redirect to the login page if not authenticated
-  if (to.meta.requiresAuth && !storageAuth || storageAuth ==="false") {
+  if (to.meta.requiresAuth && !isAuthenticated.value) {
+    // Redirect to the login page if not authenticated
     next('/');
-  }
-  else {
+  } else {
     // Continue to the route if authenticated
     next();
   }
 });
+
 export default router
