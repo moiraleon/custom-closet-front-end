@@ -50,7 +50,6 @@ export default defineComponent({
       console.log('Resetting password...');
     };
     const logout = () => {
-      console.log('Logging out...');
       localStorage.removeItem('isAuthorized');
       localStorage.removeItem('token');
       router.push('/');

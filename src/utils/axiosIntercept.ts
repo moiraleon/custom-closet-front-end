@@ -8,9 +8,8 @@ axios.interceptors.request.use(
     async (config: InternalAxiosRequestConfig) => {
     // Get the request URL
     const url = config.url;
-
     // Exclude requests to the refreshToken endpoint to prevent infinite loop
-    if (!url?.includes('/api/auth/refreshToken')) {
+    if (!url?.includes('/api/auth/refreshToken') && !url?.includes('/login') && !url?.includes('/register')) {
 
       // Testing validation of token expiration and retrieval of new token
       const token = localStorage.getItem('token');

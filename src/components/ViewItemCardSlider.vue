@@ -46,7 +46,7 @@ export default defineComponent({
     const { tileProductsArray } = props;
 
     // Log the data
-    console.log('Tile Products Array:', tileProductsArray);
+    //console.log('Tile Products Array:', tileProductsArray);
 
     const onSwiper = (swiper) => {};
     const onSlideChange = () => {};

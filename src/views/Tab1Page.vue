@@ -92,8 +92,6 @@ export default defineComponent({
     const tile3Data = ref([]);
 
     const refreshData = () => {
-      // Implement refresh logic here
-      console.log('Refreshing data...');
       fetchUserProductData()
     };
 
