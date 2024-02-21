@@ -8,10 +8,10 @@ axios.interceptors.request.use(
     async (config: InternalAxiosRequestConfig) => {
     // Get the request URL
     const url = config.url;
-    console.log(url, url?.includes('/api/auth') )
 
-    // Exclude requests to the refreshToken endpoint
+    // Exclude requests to the refreshToken endpoint to prevent infinite loop
     if (!url?.includes('/api/auth/refreshToken')) {
+
       // Testing validation of token expiration and retrieval of new token
       const token = localStorage.getItem('token');
       const refreshToken = localStorage.getItem('refreshToken');
@@ -20,7 +20,7 @@ axios.interceptors.request.use(
       // Await the completion of handleTokenRefresh
       const newToken = await handleTokenRefresh(token, refreshToken, userId);
       
-      // Set the new token in the request configuration
+      // Set the new token in the request configuration, and set it in local storage
        config.headers.Authorization = `Bearer ${newToken}`;
        localStorage.setItem('token', newToken);
     }
