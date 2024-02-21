@@ -38,7 +38,6 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
     (response: AxiosResponse) => {
       // Handle successful response
-      console.log('Response Interceptor:', response);
       return response;
     },
     (error) => {
