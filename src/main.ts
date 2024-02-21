@@ -1,6 +1,8 @@
-import { createApp } from 'vue'
-import App from './App.vue'
+import { createApp } from 'vue';
+import App from './App.vue';
 import router from './router';
+import axios from 'axios';
+import eventBus from './views/eventBus';
 
 import { IonicVue } from '@ionic/vue';
 
@@ -30,3 +32,14 @@ const app = createApp(App)
 router.isReady().then(() => {
   app.mount('#app');
 });
+
+// Set up Axios interceptor
+axios.interceptors.response.use(
+  response => response,
+  error => {
+    if (error.response && error.response.status === 401 && error.response.data.error === 'Token has expired') {
+      eventBus().emitter.emit("session-expired", { time: new Date() });
+    }
+    return Promise.reject(error);
+  }
+);
