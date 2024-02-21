@@ -121,6 +121,9 @@
   </script>
 
 <style scoped>
+.input-margin{
+  margin: 4px;
+}
 .error-message {
   color: red;
   margin-top: 10px;
