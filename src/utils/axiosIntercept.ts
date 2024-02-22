@@ -26,7 +26,7 @@ axios.interceptors.request.use(
 
     return config;
   },
-  (error) => {
+  (error: any) => {
     // Handle request error
     console.error('Request Error:', error);
     return Promise.reject(error);
@@ -39,7 +39,7 @@ axios.interceptors.response.use(
       // Handle successful response
       return response;
     },
-    (error) => {
+    (error:any) => {
       // Handle response error
       console.error('Response Error:', error);
   

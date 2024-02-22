@@ -37,7 +37,7 @@
 import { IonCard, IonModal, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonButton, IonItem, IonTitle, IonToolbar, IonButtons, IonHeader, IonContent } from '@ionic/vue';
 import TileViewPreview from '@/components/TileViewPreview.vue';
 import { OverlayEventDetail } from '@ionic/core/components';
-import { defineComponent, ref, reactive } from 'vue';
+import { defineComponent, ref, Ref, reactive, nextTick } from 'vue';
 import { handleFileInput } from '../utils/validators';
 import { retrieveSingleUseToken, uploadImageToImageKit } from '../services/imageServices';
 import { createProduct } from '../services/productServices';
@@ -49,10 +49,10 @@ import { IKImage, IKContext, IKVideo, IKUpload } from "imagekitio-vue";
 export default defineComponent({
   components: { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, TileViewPreview, IonButton, IonItem, IonModal, IonTitle, IonToolbar, IonButtons, IonHeader, IonContent, IKImage, IKContext, IKVideo, IKUpload },
   setup() {
-    // const modal = ref();
-    const cancel = (tag:String) => { 
-      const modal = document.querySelector('#modal-' + tag) as IonModal;
+    const cancel = async (tag:String) => { 
+      const modal = document.querySelector('#modal-' + tag) as Ref<typeof IonModal> | null;
         if (modal) {
+          //@ts-ignore
           modal.dismiss(null, 'cancel');
         } else {
           console.error('Modal not found for tag:', tag);

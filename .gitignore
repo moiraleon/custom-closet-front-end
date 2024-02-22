@@ -32,4 +32,4 @@ npm-debug.log*
 /www
 /.env
 config.ts
-pvars.ts
+# pvars.ts

@@ -7,34 +7,38 @@ export function validateEmail(email: string): boolean {
   }
   
   export function validate(event : Event) {
-    const value = event?.target?.value;
+    const target = event?.target as HTMLInputElement;
+    const value = target?.value;
   
-    event?.target?.classList.remove('ion-valid');
-    event?.target?.classList.remove('ion-invalid');
+    target?.classList.remove('ion-valid');
+    target?.classList.remove('ion-invalid');
   
     if (value === '') return;
   
     validateEmail(value)
-      ? event?.target?.classList.add('ion-valid')
-      : event?.target?.classList.add('ion-invalid');
+      ? target?.classList.add('ion-valid')
+      : target?.classList.add('ion-invalid');
   }
   
   export function markTouched(event: Event) {
-    event?.target?.classList.add('ion-touched');
+    const target = event?.target as HTMLInputElement;
+    target?.classList.add('ion-touched');
   }
   
   //Main Handler for Image conversion to base64
   export function handleFileInput(event: Event, tag:String){
-  const file = event.target.files[0];
-  const preview = document.getElementById("preview-"+tag);
-  const approveAndContinue = document.getElementById("continue-"+tag);
+  // const file = event?.target?.files[0];
+  const input = event.target as HTMLInputElement;
+  const file = input.files?.[0];
+  const preview = document.getElementById("preview-" + tag) as HTMLImageElement;
+  const approveAndContinue = document.getElementById("continue-" + tag);
   
   if (file) {
     if (file.type === "image/heic") {
-      convertHEICtoJPEG(file, (jpegBlob) => {
+      convertHEICtoJPEG(file, (jpegBlob: Blob) => {
         const reader = new FileReader();
         reader.onload = () => {
-          preview.src = reader.result;
+          preview.src = reader.result as string;
         };
         //Encode and display preview
         reader.readAsDataURL(jpegBlob);
@@ -44,7 +48,7 @@ export function validateEmail(email: string): boolean {
     } else {
       const reader = new FileReader();
       reader.onload = () => {
-        preview.src = reader.result;
+        preview.src = reader.result as string;
       };
       //Encode and display preview
       reader.readAsDataURL(file);
@@ -59,6 +63,7 @@ export function convertHEICtoJPEG(heicFile:Blob, callback:any){
   const heicReader = new FileReader();
   heicReader.onload = (event) => {
     const arrayBuffer = event?.target?.result;
+    if (arrayBuffer) {
     heic2any({
       blob: new Blob([arrayBuffer], { type: "image/heic" }),
       toType: "image/jpeg",
@@ -67,9 +72,12 @@ export function convertHEICtoJPEG(heicFile:Blob, callback:any){
     .then((jpegBlob) => {
       callback(jpegBlob);
     })
-    .catch((error) => {
+    .catch((error:any) => {
       console.error("Error converting HEIC to JPEG:", error);
     });
+  } else {
+    console.error("Error reading HEIC file: ArrayBuffer is null or undefined");
+  }
   };
   heicReader.readAsArrayBuffer(heicFile);
 };

@@ -34,7 +34,7 @@ async function requestNewToken(refreshToken: string, userId: string): Promise<st
     });
     const { token: newToken } = response.data;
     return newToken;
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error refreshing token:', error);
     return null;
   }

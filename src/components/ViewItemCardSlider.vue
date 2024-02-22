@@ -9,9 +9,9 @@
       :slides-per-view="1"
       :pagination="{ clickable: true }"
       :scrollbar="{ draggable: true }"
-      @swiper="onSwiper"
       @slideChange="onSlideChange"
-    >
+      >
+      <!-- @swiper="onSwiper" -->
       <template v-for="(product, index) in tileProductsArray" :key="index">
         <swiper-slide class="closet-item-background-white" :data-tile-number="tileNumber">
           <img :src="product.IMG" :alt="product.PRODUCT_TYPE" :id="product.PRODUCT_ID"/>
@@ -52,7 +52,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, Ref } from 'vue';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Navigation, Pagination, Scrollbar, Zoom } from 'swiper/modules';
 import { IonCard, IonModal, IonContent, IonHeader, IonToolbar, IonTitle, IonButtons, IonButton, IonIcon, IonItem, IonLabel } from '@ionic/vue';
@@ -67,11 +67,17 @@ import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import 'swiper/css/zoom';
 
+interface Product {
+  IMG: string;
+  PRODUCT_TYPE: string;
+  PRODUCT_ID: string;
+}
+
 export default defineComponent({
   components: { IonCard, Swiper, SwiperSlide, IonModal, IonContent, IonHeader, IonToolbar, IonTitle, IonButtons, IonButton, IonIcon, IonItem, IonLabel},
   props: {
     tileProductsArray: {
-      type: Array,
+      type: Array as () => Product[], 
       required: true,
     },
     tileNumber: {
@@ -100,11 +106,13 @@ export default defineComponent({
     // Log the data
     //console.log('Tile Products Array:', tileProductsArray);
 
-    const onSwiper = (swiper) => {};
+    // const onSwiper = (swiper: any) => {
+    //   console.log(swiper)
+    // };
 
-    const onSlideChange = (swiper) => {
+    const onSlideChange = (swiper: any) => {
       const activeIndex = swiper.activeIndex;
-      const product = props.tileProductsArray[activeIndex];
+      const product: any = props.tileProductsArray[activeIndex];
 
       if (tileNumber === 1) {
         slideOneCurrentSRC.value = product.IMG;
@@ -119,8 +127,9 @@ export default defineComponent({
     };
 
     const cancel = (id:Number) => { 
-      const modal = document.querySelector('#productModal' + id) as IonModal;
-        if (modal){
+      const modal = document.querySelector('#productModal' + id) as Ref<typeof IonModal> | null;
+        if (modal) {
+          //@ts-ignore
           modal.dismiss(null, 'cancel');
         } else {
           console.error('Modal not found for id:', id);
@@ -140,7 +149,7 @@ export default defineComponent({
                     cancel(tileNumber); 
                 }, 3000);
             }
-      } catch (error) {
+      } catch (error:any) {
         deleteStatus.value = 'error';
         console.error(error)
       }
@@ -148,7 +157,7 @@ export default defineComponent({
     
     return {
       expandOutlineIcon,
-      onSwiper,
+      // onSwiper,
       onSlideChange,
       cancel,
       deleteProduct,

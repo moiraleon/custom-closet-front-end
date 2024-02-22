@@ -132,7 +132,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted, computed } from 'vue';
+import { defineComponent, ref, Ref, onMounted, computed } from 'vue';
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardContent, IonItem, IonButtons, IonButton, IonCardTitle, IonIcon, IonSegment, IonSegmentButton, IonModal, IonLabel,IonSelect, IonSelectOption, IonImg, IonAvatar, IonList } from '@ionic/vue';
 import ViewItemCardSlider from '@/components/ViewItemCardSlider.vue';
 import {refresh, trash, funnel ,checkmarkCircleOutline, funnelOutline, trashOutline, shirtOutline, removeCircleOutline,closeCircleOutline } from 'ionicons/icons';
@@ -194,9 +194,12 @@ export default defineComponent({
         const userId = localStorage.getItem('userId');
         if (userId) {
           const userProductDataResponse = await getUserProducts(userId);
-          tile1Data.value = userProductDataResponse.data.filter(product => tileConfig.tile1.includes(product.PRODUCT_TYPE))||null;
-          tile2Data.value = userProductDataResponse.data.filter(product => tileConfig.tile2.includes(product.PRODUCT_TYPE))||null;
-          tile3Data.value = userProductDataResponse.data.filter(product => tileConfig.tile3.includes(product.PRODUCT_TYPE))||null;
+          tile1Data.value = userProductDataResponse.data.filter((product: { PRODUCT_TYPE: string; }) => tileConfig.tile1.includes(product.PRODUCT_TYPE))||null;
+          tile2Data.value = userProductDataResponse.data.filter((product: { PRODUCT_TYPE: string; }) => tileConfig.tile2.includes(product.PRODUCT_TYPE))||null;
+          tile3Data.value = userProductDataResponse.data.filter((product: { PRODUCT_TYPE: string; }) => tileConfig.tile3.includes(product.PRODUCT_TYPE))||null;
+          // tile1Data.value = userProductDataResponse.data.filter(product => tileConfig.tile1.includes(product.PRODUCT_TYPE))||null;
+          // tile2Data.value = userProductDataResponse.data.filter(product => tileConfig.tile2.includes(product.PRODUCT_TYPE))||null;
+          // tile3Data.value = userProductDataResponse.data.filter(product => tileConfig.tile3.includes(product.PRODUCT_TYPE))||null;
           loading.value = false; 
         }
       } catch (error:any) {
@@ -211,14 +214,16 @@ export default defineComponent({
     onMounted(fetchUserProductData);
 
     const cancel = (id:String) => { 
-      const modal = document.querySelector('#' + id) as IonModal;
+      const modal = document.querySelector('#' + id) as Ref<typeof IonModal> | null;
         if (modal && id =='filterModal') {
+          //@ts-ignore
           modal.dismiss(null, 'cancel');
           tile1Filter = ref(); 
           tile2Filter = ref(); 
           tile3Filter = ref();
         }
         else if(modal){
+          //@ts-ignore
           modal.dismiss(null, 'cancel');
         } else {
           console.error('Modal not found for id:', id);
