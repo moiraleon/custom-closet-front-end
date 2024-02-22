@@ -317,6 +317,7 @@ export default defineComponent({
                 } else {
                   this.errorMessage = `Oops! We ran into an error trying to apply that filter for tile${i + 1}. Please try again later!`;
                 }
+                (this as any)[`tile${i + 1}Filter`] = ref();
                 setTimeout(() => {
                   this.errorMessage = ''; 
                 }, 5000);
