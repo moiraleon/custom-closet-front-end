@@ -170,9 +170,16 @@ export default defineComponent({
     let tile2Filter = ref(); 
     let tile3Filter = ref(); //Not yet suppported
 
+
     let tile1FilteredData = ref([]);
     let tile2FilteredData = ref([]);
-    let tile3FilteredData = ref([]); //Not yet suppported
+    let tile3FilteredData = ref([]); 
+    // let tile1FilteredData: Ref<never[]> = ref([]);
+    // let tile2FilteredData: Ref<never[]> = ref([]);
+    // let tile3FilteredData: Ref<never[]> = ref([]);//Not yet suppported
+    // let tile1FilteredData = ref([]) as Ref<any[]>;
+    // let tile2FilteredData = ref([]) as Ref<any[]>;
+    // let tile3FilteredData = ref([]) as Ref<any[]>;//Not yet suppported
 
     const refreshData = () => {
       fetchUserProductData()
@@ -297,7 +304,8 @@ export default defineComponent({
         if (userId) {
         //Query DB for filtered content
         const filters = [this.tile1Filter, this.tile2Filter, this.tile3Filter];
-        const filteredDataProperties: Ref<never[]>[] = [this.tile1FilteredData, this.tile2FilteredData, this.tile3FilteredData];
+        // const filteredDataProperties: Ref<never[]>[] = [this.tile1FilteredData, this.tile2FilteredData, this.tile3FilteredData];
+          const filteredDataProperties = [this.tile1FilteredData, this.tile2FilteredData, this.tile3FilteredData];
 
         for (let i = 0; i < filters.length; i++) {
           const filter = filters[i];

@@ -31,13 +31,13 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue';
-import { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonImg } from '@ionic/vue';
+import { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonImg, IonAvatar } from '@ionic/vue';
 import { useRouter } from 'vue-router';
 
 import { getUserById } from '../services/userServices';
 
 export default defineComponent({
-  components: { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonPage, IonToolbar, IonHeader, IonButton, IonImg, IonTitle },
+  components: { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonPage, IonToolbar, IonHeader, IonButton, IonImg, IonTitle, IonAvatar },
   setup() {
     const router = useRouter();
     const userData = ref({

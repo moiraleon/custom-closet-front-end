@@ -136,7 +136,7 @@ export default defineComponent({
         }
     };
 
-    const deleteProduct = async (id:Number)=>{
+    const deleteProduct = async (id:String)=>{
       try {
         deleteStatus.value = 'loading';
         const response = await deleteProductById(id.toString());
