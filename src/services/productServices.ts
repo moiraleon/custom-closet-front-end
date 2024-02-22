@@ -37,3 +37,15 @@ export async function getUserProductsByType(productType:String, userId: string) 
     throw error; 
   }
 }
+
+//Delete product and all associated filter data
+export async function deleteProductById(productId:String) {
+  try {
+    const headers = getHeaders()
+    const response = await axios.delete(`${API_BASE_URL}/api/products/delete/${productId}`, headers);
+    return response;
+  } catch (error:any) {
+    console.error('Error fetching user products:', error);
+    throw error; 
+  }
+}

@@ -35,20 +35,20 @@
           Loading closet data...
         </div>
         <div v-else>
-          <div class="tile">
-          <ViewItemCardSlider class="ion-align-items-center" name="Tile 1" :tileProductsArray="displayedTile1Data" />
+          <div class="tile" v-if="!loading && tile1Data.length > 0">
+          <ViewItemCardSlider class="ion-align-items-center" name="Tile 1" :tileProductsArray="displayedTile1Data" :tileNumber=1></ViewItemCardSlider>
           <ion-button v-if="tile1FilteredData.length > 0" @click="clearFilter(1)" color="danger" class="remove-filter">
             &#215;
           </ion-button>
           </div>
-          <div class="tile">
-          <ViewItemCardSlider class="ion-align-items-center" name="Tile 2" :tileProductsArray="displayedTile2Data" />
+          <div class="tile" v-if="!loading && tile2Data.length > 0">
+          <ViewItemCardSlider class="ion-align-items-center" name="Tile 2" :tileProductsArray="displayedTile2Data" :tileNumber=2></ViewItemCardSlider>
           <ion-button v-if="tile2FilteredData.length > 0" @click="clearFilter(2)" color="danger" class="remove-filter">
             &#215;
         </ion-button>
           </div>
-          <div class="tile">
-          <ViewItemCardSlider class="ion-align-items-center" name="Tile 3" :tileProductsArray="displayedTile3Data" />
+          <div class="tile" v-if="!loading && tile3Data.length > 0">
+          <ViewItemCardSlider class="ion-align-items-center" name="Tile 3" :tileProductsArray="displayedTile3Data" :tileNumber=3></ViewItemCardSlider>
           <ion-button v-if="tile3FilteredData.length > 0" @click="clearFilter(3)" color="danger" class="remove-filter">
             &#215;
           </ion-button>
@@ -194,9 +194,9 @@ export default defineComponent({
         const userId = localStorage.getItem('userId');
         if (userId) {
           const userProductDataResponse = await getUserProducts(userId);
-          tile1Data.value = userProductDataResponse.data.filter(product => tileConfig.tile1.includes(product.PRODUCT_TYPE));
-          tile2Data.value = userProductDataResponse.data.filter(product => tileConfig.tile2.includes(product.PRODUCT_TYPE));
-          tile3Data.value = userProductDataResponse.data.filter(product => tileConfig.tile3.includes(product.PRODUCT_TYPE));
+          tile1Data.value = userProductDataResponse.data.filter(product => tileConfig.tile1.includes(product.PRODUCT_TYPE))||null;
+          tile2Data.value = userProductDataResponse.data.filter(product => tileConfig.tile2.includes(product.PRODUCT_TYPE))||null;
+          tile3Data.value = userProductDataResponse.data.filter(product => tileConfig.tile3.includes(product.PRODUCT_TYPE))||null;
           loading.value = false; 
         }
       } catch (error:any) {
@@ -288,11 +288,6 @@ export default defineComponent({
       },
       
       async handleApply() {
-        // console.log('Apply Filter fired');
-        // console.log('tile1',this.tile1Filter)
-        // console.log('tile2',this.tile2Filter)
-        // console.log('tile3',this.tile3Filter)
-
         const userId = localStorage.getItem('userId');
         if (userId) {
         //Query DB for filtered content
