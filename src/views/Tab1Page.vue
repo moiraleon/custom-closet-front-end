@@ -13,7 +13,7 @@
       </ion-header>
               <ion-toolbar>
             <ion-buttons class="mini-toolbar">
-              <ion-button @click="openFilter" color="dark" id="openFilterModal">
+              <ion-button color="dark" id="openFilterModal">
                 Filter
                 <ion-icon aria-hidden="true" :icon="funnelIcon" />
               </ion-button>
@@ -21,24 +21,38 @@
                 Refresh
                 <ion-icon aria-hidden="true" :icon="refreshIcon" />
               </ion-button>
-              <!-- <ion-button @click="updateData" color="dark">
-                Update
-                <ion-icon aria-hidden="true" :icon="checkmarkCircleOutlineIcon" />
-              </ion-button>
-              <ion-button @click="deleteData" color="dark">
-                Delete
-                <ion-icon aria-hidden="true" :icon="trashIcon" />
-              </ion-button> -->
+              <ion-button @click="resetFilters" color="dark">
+              Clear Filters
+              <ion-icon slot="start" :icon="removeCircleOutlineIcon"></ion-icon>
+            </ion-button>
             </ion-buttons>
           </ion-toolbar>
       <div id="tile-column">
+        <div>
+        <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
+      </div>
         <div v-if="loading">
           Loading closet data...
         </div>
         <div v-else>
-          <ViewItemCardSlider class="ion-align-items-center" name="Tile 1" :tileProductsArray="tile1Data" />
-          <ViewItemCardSlider class="ion-align-items-center" name="Tile 2" :tileProductsArray="tile2Data" />
-          <ViewItemCardSlider class="ion-align-items-center" name="Tile 3" :tileProductsArray="tile3Data" />
+          <div class="tile">
+          <ViewItemCardSlider class="ion-align-items-center" name="Tile 1" :tileProductsArray="displayedTile1Data" />
+          <ion-button v-if="tile1FilteredData.length > 0" @click="clearFilter(1)" color="danger" class="remove-filter">
+            &#215;
+          </ion-button>
+          </div>
+          <div class="tile">
+          <ViewItemCardSlider class="ion-align-items-center" name="Tile 2" :tileProductsArray="displayedTile2Data" />
+          <ion-button v-if="tile2FilteredData.length > 0" @click="clearFilter(2)" color="danger" class="remove-filter">
+            &#215;
+        </ion-button>
+          </div>
+          <div class="tile">
+          <ViewItemCardSlider class="ion-align-items-center" name="Tile 3" :tileProductsArray="displayedTile3Data" />
+          <ion-button v-if="tile3FilteredData.length > 0" @click="clearFilter(3)" color="danger" class="remove-filter">
+            &#215;
+          </ion-button>
+          </div>
           <ion-card v-if="tile1Data.length === 0 && tile2Data.length === 0 && tile3Data.length === 0">
             <ion-card-header>
               <ion-card-title>Uh oh!</ion-card-title>
@@ -75,9 +89,9 @@
         <ion-list>
         <ion-title>Which section would you like to filter?</ion-title>
         <ion-item class="filter-tile-dropdown">
-          <ion-label>Tile 1</ion-label>
           <ion-select
           aria-label="Tile1"
+          label="Tile1"
           placeholder="Select Tile1"
           @ionChange="handleChange($event, 1)"
           @ionCancel="handleCancel()"
@@ -89,9 +103,9 @@
           </ion-select>
         </ion-item>
         <ion-item class="filter-tile-dropdown">
-          <ion-label>Tile 2</ion-label>
           <ion-select
           aria-label="Tile2"
+          label="Tile2"
           placeholder="Select Tile2"
           @ionChange="handleChange($event, 2)"
           @ionCancel="handleCancel()"
@@ -103,8 +117,7 @@
           </ion-select>
         </ion-item>
         <ion-item class="filter-tile-dropdown" :disabled="true">
-          <ion-label>Tile 3 (Not yet supported)</ion-label>
-          <ion-select>
+          <ion-select label="Tile3 (Not yet supported)">
             <ion-select-option value="option1">Shoes</ion-select-option>
           </ion-select>
         </ion-item>
@@ -119,16 +132,21 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted } from 'vue';
+import { defineComponent, ref, onMounted, computed } from 'vue';
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardContent, IonItem, IonButtons, IonButton, IonCardTitle, IonIcon, IonSegment, IonSegmentButton, IonModal, IonLabel,IonSelect, IonSelectOption, IonImg, IonAvatar, IonList } from '@ionic/vue';
 import ViewItemCardSlider from '@/components/ViewItemCardSlider.vue';
-import {refresh, trash, funnel ,checkmarkCircleOutline, funnelOutline, trashOutline, shirtOutline } from 'ionicons/icons';
+import {refresh, trash, funnel ,checkmarkCircleOutline, funnelOutline, trashOutline, shirtOutline, removeCircleOutline,closeCircleOutline } from 'ionicons/icons';
 import { getUserProducts, getUserProductsByType } from '../services/productServices';
 import { tileConfig } from '../../tileConfig';
 import { useRouter } from 'vue-router';
 
 export default defineComponent({
   components: { IonPage, IonToolbar, IonHeader, IonTitle, IonContent, ViewItemCardSlider, IonCard, IonCardHeader, IonCardContent, IonItem, IonButtons, IonButton, IonCardTitle, IonIcon, IonSegment, IonSegmentButton, IonModal, IonLabel,IonSelect, IonSelectOption, IonImg, IonAvatar, IonList},  
+  data() {
+    return {
+      errorMessage: ''
+    };
+  },
   setup() {
     const router = useRouter();
 
@@ -137,6 +155,8 @@ export default defineComponent({
     const funnelIcon = funnelOutline;
     const checkmarkCircleOutlineIcon = checkmarkCircleOutline;
     const shirtOutlineIcon = shirtOutline;
+    const removeCircleOutlineIcon = removeCircleOutline;
+    const closeCircleOutlineIcon = closeCircleOutline;
 
 
     const loading = ref(true);
@@ -144,11 +164,8 @@ export default defineComponent({
     const tile2Data = ref([]);
     const tile3Data = ref([]);
 
-    //Filtered Data (for testing only)
-    // let tile1FilteredDataBool = ref(false);
-    // let tile2FilteredDataBool = ref(false);
-    // let tile3FilteredDataBool = ref(false); //Not yet suppported
 
+    //Filtering Data Vars
     let tile1Filter = ref(); 
     let tile2Filter = ref(); 
     let tile3Filter = ref(); //Not yet suppported
@@ -170,11 +187,6 @@ export default defineComponent({
       // Implement delete logic here
       console.log('Updating data...');
     };
-
-    const openFilter = () => {
-      // Implement filter logic here
-      console.log('Opening filter...');
-    }
 
     // Fetch user data and update tile data
     const fetchUserProductData = async () => {
@@ -199,21 +211,37 @@ export default defineComponent({
     onMounted(fetchUserProductData);
 
     const cancel = (id:String) => { 
-      console.log(id)
       const modal = document.querySelector('#' + id) as IonModal;
-        if (modal) {
-          //(for testing only)
-          // if(id == 'filterModal'){
-          //   console.log("closing filter modal")
-          //   tile1FilteredDataBool.value = false
-          //   tile2FilteredDataBool.value = false
-          //   tile3FilteredDataBool.value = false
-          //   modal.dismiss(null, 'cancel');
-          // }
+        if (modal && id =='filterModal') {
+          modal.dismiss(null, 'cancel');
+          tile1Filter = ref(); 
+          tile2Filter = ref(); 
+          tile3Filter = ref();
+        }
+        else if(modal){
           modal.dismiss(null, 'cancel');
         } else {
           console.error('Modal not found for id:', id);
         }
+    };
+
+        // Computed properties to determine which data to display
+    const displayedTile1Data = computed(() => {
+      return tile1FilteredData.value.length > 0 ? tile1FilteredData.value : tile1Data.value;
+    });
+
+    const displayedTile2Data = computed(() => {
+      return tile2FilteredData.value.length > 0 ? tile2FilteredData.value : tile2Data.value;
+    });
+
+    const displayedTile3Data = computed(() => {
+      return tile3FilteredData.value.length > 0 ? tile3FilteredData.value : tile3Data.value;
+    });
+
+    const resetFilters = () => {
+      tile1FilteredData.value = [];
+      tile2FilteredData.value = [];
+      tile3FilteredData.value = [];
     };
 
     return {
@@ -225,22 +253,24 @@ export default defineComponent({
       refreshIcon,
       deleteData,
       trashIcon,
-      openFilter,
       funnelIcon,
       updateData,
       checkmarkCircleOutlineIcon,
       redirectToAddItemsPage,
       cancel,
       shirtOutlineIcon,
-      // tile1FilteredDataBool,
-      // tile2FilteredDataBool,
-      // tile3FilteredDataBool,
       tile1FilteredData,
       tile2FilteredData,
       tile3FilteredData,
       tile1Filter,
       tile2Filter,
-      tile3Filter
+      tile3Filter,
+      displayedTile1Data,
+      displayedTile2Data,
+      displayedTile3Data,
+      resetFilters,
+      removeCircleOutlineIcon,
+      closeCircleOutlineIcon
     };
   },
   methods: {
@@ -256,53 +286,62 @@ export default defineComponent({
       handleCancel() {
         console.log('ionCancel fired');
       },
+      
       async handleApply() {
-        console.log('Apply Filter fired');
-        console.log('tile1',this.tile1Filter)
-        console.log('tile2',this.tile2Filter)
-        console.log('tile3',this.tile3Filter)
+        // console.log('Apply Filter fired');
+        // console.log('tile1',this.tile1Filter)
+        // console.log('tile2',this.tile2Filter)
+        // console.log('tile3',this.tile3Filter)
 
+        const userId = localStorage.getItem('userId');
+        if (userId) {
         //Query DB for filtered content
-        if(this.tile1Filter){
-          console.log(this.tile1Filter)
-          const userId = localStorage.getItem('userId');
-            if (userId) {
-              const tile1Results = await getUserProductsByType(this.tile1Filter, userId)
-              console.log("tile1Results",tile1Results.data)
-              this.tile1FilteredData = tile1Results.data;
-              //Reset filter after query
-              this.tile1Filter = ref();
-            }
-        }
-        if(this.tile2Filter){
-          console.log(this.tile2Filter)
-          const userId = localStorage.getItem('userId');
-            if (userId) {
-              const tile2Results = await getUserProductsByType(this.tile2Filter, userId)
-              console.log("tile2Results",tile2Results.data)
-              this.tile2FilteredData = tile2Results.data;
-              //Reset filter after query
-              this.tile2Filter = ref();
-            }
-        }
-        if(this.tile3Filter){
-          console.log(this.tile3Filter)
-          const userId = localStorage.getItem('userId');
-            if (userId) {
-              const tile3Results = await getUserProductsByType(this.tile3Filter, userId)
-              console.log("tile3Results",tile3Results.data)
-              this.tile3FilteredData = tile3Results.data;
-              //Reset filter after query
-              this.tile3Filter = ref();
-            }
-        }
+        const filters = [this.tile1Filter, this.tile2Filter, this.tile3Filter];
+        const filteredDataProperties: Ref<never[]>[] = [this.tile1FilteredData, this.tile2FilteredData, this.tile3FilteredData];
 
-        //Set filtered data 
+        for (let i = 0; i < filters.length; i++) {
+          const filter = filters[i];
+          const filteredData = filteredDataProperties[i];
+
+          if (filter) {
+            console.log(filter);
+                try{
+                const tileResults = await getUserProductsByType(filter, userId);
+                // console.log(`tile${i + 1}Results`, tileResults.data);
+                (this as any)[`tile${i + 1}FilteredData`] = tileResults.data;
+                // Reset filter after query
+                (this as any)[`tile${i + 1}Filter`] = ref();
+                }catch(err:any){
+                 if (err.response && err.response.data && err.response.data.error === "No products found for this user and product type") {
+                  this.errorMessage = `Oops! Looks like we weren't able to locate any products with the type ${filter}. Please try another filter.`;
+                } else {
+                  this.errorMessage = `Oops! We ran into an error trying to apply that filter for tile${i + 1}. Please try again later!`;
+                }
+                setTimeout(() => {
+                  this.errorMessage = ''; 
+                }, 5000);
+                }
+          }
+        }
+      }
+        //Dismiss modal
         this.cancel('filterModal');
       },
+
       handleDismiss() {
         console.log('ionDismiss fired');
-      }
+      },
+      
+      clearFilter(tileNumber: Number) {
+        if (tileNumber === 1) {
+          this.tile1FilteredData.length = 0;
+        } else if (tileNumber === 2) {
+          this.tile2FilteredData.length = 0;
+        } else if (tileNumber === 3) {
+          this.tile3FilteredData.length = 0;
+        }
+      },
+
     }, 
 });
 </script>
@@ -312,7 +351,14 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
 }
-
+.tile{
+  display: flex;
+  flex-direction: row;
+}
+.remove-filter{
+  max-width: 40px;
+  max-height: 40px;
+}
 .mini-toolbar{
   display: flex;
   flex-wrap: wrap;
