@@ -41,9 +41,10 @@
          </ion-item>
          <ion-item>
          <p v-if="deleteStatus === 'loading'">Loading...</p>
-         <p v-else-if="deleteStatus === 'success'">Success!</p>
+         <p v-else-if="deleteStatus === 'success'">Success! Please refresh your page.</p>
          <p v-else-if="deleteStatus === 'error'">We had trouble processing your request. Please try again later.</p>
         </ion-item>
+        <ion-button :strong="true" @click="cancel(tileNumber)">Close</ion-button>
       </ion-content>
     </ion-modal>
   </div>
@@ -136,7 +137,7 @@ export default defineComponent({
         if (deleteStatus.value === 'success') {
                 setTimeout(() => {
                     deleteStatus.value = '';
-                    cancel(tileNumber); // Close the modal
+                    cancel(tileNumber); 
                 }, 3000);
             }
       } catch (error) {
@@ -178,6 +179,7 @@ export default defineComponent({
 .tile {
   max-width: 500px;
   background-color: white;
+  width: 100%;
 }
 
 .tile img {
