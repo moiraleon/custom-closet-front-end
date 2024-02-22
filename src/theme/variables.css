@@ -2,6 +2,10 @@
 http://ionicframework.com/docs/theming/ */
 
 /** Ionic CSS Variables **/
+.alert-button.sc-ion-alert-md {
+  background-color: darkgray !important;
+}
+
 :root {
   /** primary **/
   --ion-color-primary: #f4f5f8;
