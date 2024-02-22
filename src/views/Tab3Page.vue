@@ -13,7 +13,10 @@
       </ion-header>
       <ion-card v-if="userDataFetched" class="profile-container">
         <ion-card-header class="profile-header">
-          <ion-img :src="userData.AVATAR" alt="Avatar" class="avatar"></ion-img>
+          <!-- <ion-img :src="userData.AVATAR" alt="Avatar" class="avatar"></ion-img> -->
+          <ion-avatar>
+            <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+          </ion-avatar>
           <ion-card-title>{{ userData.FIRST_NAME }} {{ userData.LAST_NAME }}</ion-card-title>
           <ion-card-subtitle>{{ userData.EMAIL }}</ion-card-subtitle>
         </ion-card-header>
