@@ -25,3 +25,15 @@ export async function getUserProducts(userId: string) {
     throw error; 
   }
 }
+
+//Fetch all user products by type
+export async function getUserProductsByType(productType:String, userId: string) {
+  try {
+    const headers = getHeaders()
+    const response = await axios.get(`${API_BASE_URL}/api/products/getProductsType/${productType}/${userId}`, headers);
+    return response;
+  } catch (error:any) {
+    console.error('Error fetching user products:', error);
+    throw error; 
+  }
+}
