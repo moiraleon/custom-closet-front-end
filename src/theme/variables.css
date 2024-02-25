@@ -41,8 +41,8 @@ http://ionicframework.com/docs/theming/ */
 
 } */
 
-.alert-button.sc-ion-alert-md {
-  background-color: darkgray !important;
+.alert-button, .alert-radio-group {
+  background-color: rgb(95, 95, 95) !important;
 }
 
 /** Ionic CSS Variables **/
