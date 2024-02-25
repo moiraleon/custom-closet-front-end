@@ -9,7 +9,7 @@
       :slides-per-view="1"
       :pagination="{ clickable: true }"
       :scrollbar="{ draggable: true }"
-      @slideChange="onSlideChange"
+      
       @swiper="onSwiper"
       >
       <template v-for="(product, index) in tileProductsArray" :key="index">
@@ -33,11 +33,10 @@
         </ion-toolbar>
       </ion-header>
       <ion-content class="ion-padding">
-        <img :src="tileNumber === 1 ? slideOneCurrentSRC : tileNumber === 2 ? slideTwoCurrentSRC : slideThreeCurrentSRC" 
-         :id="tileNumber === 1 ? slideOneCurrentID : tileNumber === 2 ? slideTwoCurrentID : slideThreeCurrentID"/>
+        <img :src="modalImageSource" alt="Product Image"/>
          <ion-item>
           <ion-label>Would you like to delete this product?</ion-label>
-            <ion-button :id="tileNumber === 1 ? slideOneCurrentID : tileNumber === 2 ? slideTwoCurrentID : slideThreeCurrentID" @click="deleteProduct(tileNumber === 1 ? slideOneCurrentID : tileNumber === 2 ? slideTwoCurrentID : slideThreeCurrentID)">Delete</ion-button>
+            <ion-button :id="modalIDSource" @click="deleteProduct(modalIDSource)">Delete</ion-button>
          </ion-item>
          <ion-item>
          <p v-if="deleteStatus === 'loading'">Loading...</p>
@@ -52,7 +51,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, Ref } from 'vue';
+import { defineComponent, ref, Ref, computed } from 'vue';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Navigation, Pagination, Scrollbar, Zoom } from 'swiper/modules';
 import { IonCard, IonModal, IonContent, IonHeader, IonToolbar, IonTitle, IonButtons, IonButton, IonIcon, IonItem, IonLabel } from '@ionic/vue';
@@ -89,6 +88,7 @@ export default defineComponent({
     productId: String, 
   },
   setup(props) {
+    let swiperInstance: typeof Swiper | null = null;
     const tileNumber = props.tileNumber;
 
     let slideOneCurrentSRC = ref('')
@@ -107,24 +107,33 @@ export default defineComponent({
     //console.log('Tile Products Array:', tileProductsArray);
 
     const onSwiper = (swiper: any) => {
-      // console.log(swiper)
+      swiperInstance = swiper;
     };
-      //TODO: Update so on filter change the currentSRC is set accurately
-    const onSlideChange = (swiper: any) => {
-      const activeIndex = swiper.activeIndex;
-      const product: any = props.tileProductsArray[activeIndex];
-
-      if (tileNumber === 1) {
-        slideOneCurrentSRC.value = product.IMG || '';
-        slideOneCurrentID.value = product.PRODUCT_ID || '';
-      } else if (tileNumber === 2) {
-        slideTwoCurrentSRC.value = product.IMG || '';
-        slideTwoCurrentID.value = product.PRODUCT_ID || '';
-      } else if (tileNumber === 3) {
-        slideThreeCurrentSRC.value = product.IMG || '';
-        slideThreeCurrentID.value = product.PRODUCT_ID || '';
+      
+    //Set Image of Modal Expand
+      const modalImageSource = computed(() => {
+    if (swiperInstance) {
+      const activeSlideIndex = swiperInstance.activeIndex;
+      const activeSlide = swiperInstance.slides[activeSlideIndex];
+      const imgElement = activeSlide.querySelector('img');
+      if (imgElement) {
+        return imgElement.src;
       }
-    };
+    }
+    return ''; // Default value if no image found
+  });
+    //Set ID of Modal Expand
+      const modalIDSource = computed(() => {
+    if (swiperInstance) {
+      const activeSlideIndex = swiperInstance.activeIndex;
+      const activeSlide = swiperInstance.slides[activeSlideIndex];
+      const imgElement = activeSlide.querySelector('img');
+      if (imgElement) {
+        return imgElement.id;
+      }
+    }
+    return ''; // Default value if no image found
+  });
 
     const cancel = (id:Number) => { 
       const modal = document.querySelector('#productModal' + id) as Ref<typeof IonModal> | null;
@@ -158,7 +167,9 @@ export default defineComponent({
     return {
       expandOutlineIcon,
       onSwiper,
-      onSlideChange,
+      //onSlideChange,
+      modalImageSource,
+      modalIDSource,
       cancel,
       deleteProduct,
       deleteStatus,
