@@ -10,8 +10,8 @@
       :pagination="{ clickable: true }"
       :scrollbar="{ draggable: true }"
       @slideChange="onSlideChange"
+      @swiper="onSwiper"
       >
-      <!-- @swiper="onSwiper" -->
       <template v-for="(product, index) in tileProductsArray" :key="index">
         <swiper-slide class="closet-item-background-white" :data-tile-number="tileNumber">
           <img :src="product.IMG" :alt="product.PRODUCT_TYPE" :id="product.PRODUCT_ID"/>
@@ -28,7 +28,7 @@
         <ion-toolbar>
           <ion-title>Update Product</ion-title>
           <ion-buttons slot="end">
-            <ion-button :strong="true" @click="cancel(tileNumber)">Cancel</ion-button>
+            <ion-button color="danger" :strong="true" @click="cancel(tileNumber)">Cancel</ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
@@ -106,23 +106,23 @@ export default defineComponent({
     // Log the data
     //console.log('Tile Products Array:', tileProductsArray);
 
-    // const onSwiper = (swiper: any) => {
-    //   console.log(swiper)
-    // };
-
+    const onSwiper = (swiper: any) => {
+      // console.log(swiper)
+    };
+      //TODO: Update so on filter change the currentSRC is set accurately
     const onSlideChange = (swiper: any) => {
       const activeIndex = swiper.activeIndex;
       const product: any = props.tileProductsArray[activeIndex];
 
       if (tileNumber === 1) {
-        slideOneCurrentSRC.value = product.IMG;
-        slideOneCurrentID.value = product.PRODUCT_ID;
+        slideOneCurrentSRC.value = product.IMG || '';
+        slideOneCurrentID.value = product.PRODUCT_ID || '';
       } else if (tileNumber === 2) {
-        slideTwoCurrentSRC.value = product.IMG;
-        slideTwoCurrentID.value = product.PRODUCT_ID;
+        slideTwoCurrentSRC.value = product.IMG || '';
+        slideTwoCurrentID.value = product.PRODUCT_ID || '';
       } else if (tileNumber === 3) {
-        slideThreeCurrentSRC.value = product.IMG;
-        slideThreeCurrentID.value = product.PRODUCT_ID;
+        slideThreeCurrentSRC.value = product.IMG || '';
+        slideThreeCurrentID.value = product.PRODUCT_ID || '';
       }
     };
 
@@ -157,7 +157,7 @@ export default defineComponent({
     
     return {
       expandOutlineIcon,
-      // onSwiper,
+      onSwiper,
       onSlideChange,
       cancel,
       deleteProduct,

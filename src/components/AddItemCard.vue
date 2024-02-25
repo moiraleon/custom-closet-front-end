@@ -12,25 +12,33 @@
     </ion-card>
   </div>
   <ion-modal ref="modal" :trigger="'open-modal-'+ tag" :id="'modal-' + tag" >
+    <ion-card>
       <ion-header>
         <ion-toolbar>
           <ion-title>Upload a new {{ addText }} </ion-title>
           <ion-buttons slot="end">
-            <ion-button :strong="true" @click="cancel(tag)">Close</ion-button>
+            <ion-button :strong="true" @click="cancel(tag)" color="danger">Close</ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
-      <ion-content class="ion-padding">
-        <ion-title>Please choose an image</ion-title>
-        <ion-item class="upload-image-container">
+        <ion-card-header>
+        <ion-card-title><strong>Please choose an image</strong></ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item>
           <input :id="'input-'+tag" type="file" accept="image/jpeg, image/heic, image/png" @change="event => handleFileInput(event, tag)"  /><br />
+        </ion-item>
+        <ion-item>
           <img :id="'preview-' + tag" ref="preview" class="default-hidden" height="200" alt="Image preview" />
+        </ion-item>
+        <ion-item>
           <ion-button :id="'continue-' + tag" class="default-hidden" @click="uploadImageAndCreateProduct(tag)" :disabled="false">Continue</ion-button>
         </ion-item>
           <div v-if="isLoading">Loading...</div>
           <div v-if="isSuccess">Success!</div>
           <div v-if="isError">Failed to create product, please try again later.</div>
-      </ion-content>
+      </ion-card-content>
+      </ion-card>
     </ion-modal>
 </template>
 <script lang="ts">

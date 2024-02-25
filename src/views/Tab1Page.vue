@@ -81,13 +81,15 @@
         <ion-toolbar>
           <ion-title>Filter Items</ion-title>
           <ion-buttons slot="end">
-            <ion-button :strong="true" @click="cancel('filterModal')">Cancel</ion-button>
+            <ion-button :strong="true" @click="cancel('filterModal')" color="danger">Cancel</ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
       <ion-content class="ion-padding">
         <ion-list>
-        <ion-title>Which section would you like to filter?</ion-title>
+          <ion-item>
+            <ion-title>Choose Filter</ion-title>
+          </ion-item>
         <ion-item class="filter-tile-dropdown">
           <ion-select
           aria-label="Tile1"
@@ -173,13 +175,7 @@ export default defineComponent({
 
     let tile1FilteredData = ref([]);
     let tile2FilteredData = ref([]);
-    let tile3FilteredData = ref([]); 
-    // let tile1FilteredData: Ref<never[]> = ref([]);
-    // let tile2FilteredData: Ref<never[]> = ref([]);
-    // let tile3FilteredData: Ref<never[]> = ref([]);//Not yet suppported
-    // let tile1FilteredData = ref([]) as Ref<any[]>;
-    // let tile2FilteredData = ref([]) as Ref<any[]>;
-    // let tile3FilteredData = ref([]) as Ref<any[]>;//Not yet suppported
+    let tile3FilteredData = ref([]); //Not yet suppported
 
     const refreshData = () => {
       fetchUserProductData()
@@ -204,9 +200,6 @@ export default defineComponent({
           tile1Data.value = userProductDataResponse.data.filter((product: { PRODUCT_TYPE: string; }) => tileConfig.tile1.includes(product.PRODUCT_TYPE))||null;
           tile2Data.value = userProductDataResponse.data.filter((product: { PRODUCT_TYPE: string; }) => tileConfig.tile2.includes(product.PRODUCT_TYPE))||null;
           tile3Data.value = userProductDataResponse.data.filter((product: { PRODUCT_TYPE: string; }) => tileConfig.tile3.includes(product.PRODUCT_TYPE))||null;
-          // tile1Data.value = userProductDataResponse.data.filter(product => tileConfig.tile1.includes(product.PRODUCT_TYPE))||null;
-          // tile2Data.value = userProductDataResponse.data.filter(product => tileConfig.tile2.includes(product.PRODUCT_TYPE))||null;
-          // tile3Data.value = userProductDataResponse.data.filter(product => tileConfig.tile3.includes(product.PRODUCT_TYPE))||null;
           loading.value = false; 
         }
       } catch (error:any) {
@@ -291,9 +284,6 @@ export default defineComponent({
         if(tile == 1){this.tile1Filter = ev.detail.value}
         if(tile == 2){this.tile2Filter = ev.detail.value}
         if(tile == 3){this.tile3Filter = ev.detail.value}
-        //console.log('tile1',this.tile1Filter)
-        //console.log('tile2',this.tile2Filter)
-        //console.log('tile3',this.tile3Filter)
       },
       handleCancel() {
         console.log('ionCancel fired');
@@ -304,7 +294,6 @@ export default defineComponent({
         if (userId) {
         //Query DB for filtered content
         const filters = [this.tile1Filter, this.tile2Filter, this.tile3Filter];
-        // const filteredDataProperties: Ref<never[]>[] = [this.tile1FilteredData, this.tile2FilteredData, this.tile3FilteredData];
           const filteredDataProperties = [this.tile1FilteredData, this.tile2FilteredData, this.tile3FilteredData];
 
         for (let i = 0; i < filters.length; i++) {
@@ -312,11 +301,13 @@ export default defineComponent({
           const filteredData = filteredDataProperties[i];
 
           if (filter) {
-            console.log(filter);
+            //console.log(filter);
                 try{
-                const tileResults = await getUserProductsByType(filter, userId);
-                // console.log(`tile${i + 1}Results`, tileResults.data);
+                //Setting Filtered Data  
+                 const tileResults = await getUserProductsByType(filter, userId);
+                 //console.log(`tile${i + 1}Results`, tileResults.data);
                 (this as any)[`tile${i + 1}FilteredData`] = tileResults.data;
+
                 // Reset filter after query
                 (this as any)[`tile${i + 1}Filter`] = ref();
                 }catch(err:any){
