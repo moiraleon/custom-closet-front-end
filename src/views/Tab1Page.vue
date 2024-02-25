@@ -291,9 +291,9 @@ export default defineComponent({
         if(tile == 1){this.tile1Filter = ev.detail.value}
         if(tile == 2){this.tile2Filter = ev.detail.value}
         if(tile == 3){this.tile3Filter = ev.detail.value}
-        console.log('tile1',this.tile1Filter)
-        console.log('tile2',this.tile2Filter)
-        console.log('tile3',this.tile3Filter)
+        //console.log('tile1',this.tile1Filter)
+        //console.log('tile2',this.tile2Filter)
+        //console.log('tile3',this.tile3Filter)
       },
       handleCancel() {
         console.log('ionCancel fired');
