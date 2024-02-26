@@ -33,3 +33,4 @@ npm-debug.log*
 /.env
 config.ts
 # pvars.ts
+.vercel
