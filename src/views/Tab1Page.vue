@@ -15,15 +15,15 @@
             <ion-buttons class="mini-toolbar">
               <ion-button color="dark" id="openFilterModal">
                 Filter
-                <ion-icon slot="start" aria-hidden="true" :icon="funnelIcon" />
+                <ion-icon aria-hidden="true" :icon="funnelIcon" />
               </ion-button>
               <ion-button @click="refreshData" color="dark">
                 Refresh
-                <ion-icon slot="start" aria-hidden="true" :icon="refreshIcon" />
+                <ion-icon aria-hidden="true" :icon="refreshIcon" />
               </ion-button>
               <ion-button @click="resetFilters" color="dark">
               Clear Filters
-              <ion-icon slot="start" :icon="removeCircleOutlineIcon"></ion-icon>
+              <ion-icon :icon="removeCircleOutlineIcon"></ion-icon>
             </ion-button>
             </ion-buttons>
           </ion-toolbar>
