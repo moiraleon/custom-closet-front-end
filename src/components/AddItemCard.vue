@@ -49,7 +49,7 @@ import { defineComponent, ref, Ref, reactive, nextTick } from 'vue';
 import { handleFileInput } from '../utils/validators';
 import { retrieveSingleUseToken, uploadImageToImageKit } from '../services/imageServices';
 import { createProduct } from '../services/productServices';
-// import { IMAGEKIT_PUBLIC_KEY } from '../../pvars';
+import { IMAGEKIT_PUBLIC_KEY } from '../../pvars';
 
 // @ts-ignore
 import { IKImage, IKContext, IKVideo, IKUpload } from "imagekitio-vue";
@@ -109,7 +109,7 @@ export default defineComponent({
       if (userId && base64File) {
         try {
           const body = new FormData();
-          const IMAGEKIT_PUBLIC_KEY = process.env.IMAGEKIT_PUBLIC_KEY || '';
+          //const IMAGEKIT_PUBLIC_KEY = process.env.IMAGEKIT_PUBLIC_KEY || '';
           body.append('file', base64File);
           body.append('publicKey', IMAGEKIT_PUBLIC_KEY);
           body.append('signature', singleUseAuth?.signature || '');
