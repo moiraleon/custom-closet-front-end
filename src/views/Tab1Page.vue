@@ -15,11 +15,11 @@
             <ion-buttons class="mini-toolbar">
               <ion-button color="dark" id="openFilterModal">
                 Filter
-                <ion-icon aria-hidden="true" :icon="funnelIcon" />
+                <ion-icon slot="start" aria-hidden="true" :icon="funnelIcon" />
               </ion-button>
               <ion-button @click="refreshData" color="dark">
                 Refresh
-                <ion-icon aria-hidden="true" :icon="refreshIcon" />
+                <ion-icon slot="start" aria-hidden="true" :icon="refreshIcon" />
               </ion-button>
               <ion-button @click="resetFilters" color="dark">
               Clear Filters
@@ -115,7 +115,7 @@
           >
             <ion-select-option value="pants">Pants</ion-select-option>
             <ion-select-option value="shorts">Shorts</ion-select-option>
-            <ion-select-option value="skirt">Skirt</ion-select-option>
+            <ion-select-option value="skirt">Skirts</ion-select-option>
           </ion-select>
         </ion-item>
         <ion-item class="filter-tile-dropdown" :disabled="true">
