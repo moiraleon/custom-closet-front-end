@@ -2,7 +2,7 @@
     <ion-page>
       <ion-header>
         <ion-toolbar>
-          <ion-title>Custom Closet</ion-title>
+          <ion-title>The Pocket Closet</ion-title>
         </ion-toolbar>
       </ion-header>
       <ion-content class="ion-padding">
